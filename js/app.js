@@ -981,6 +981,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
+                         cache: false,
                         url: "/patient/{id:string}",
                         views: {
                             'menuContent': {
