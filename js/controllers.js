@@ -2053,6 +2053,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.subpage = function (ab) {
+                $ionicLoading.show({template: 'Loading..'});
                 if (ab == 'createdbyu') {
                     $scope.crtedbyu = true;
                     $scope.sharddbyu = false;
@@ -2097,6 +2098,8 @@ angular.module('your_app_name.controllers', [])
                         });
                         console.log($scope.repeatNo);
                         console.log($scope.repeatFreq);
+                        $ionicLoading.hide();
+                        $ionicLoading.show({template: 'Loading..'});
                         $http({
                             method: 'GET',
                             url: domain + 'doctrsrecords/get-all-records-details',
@@ -2135,12 +2138,11 @@ angular.module('your_app_name.controllers', [])
                                     }
                                 });
                             });
-                            $scope.loading = false;
+                            $ionicLoading.hide();
                             //console.log($scope.createdbyShared);
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-                        $scope.loading = false;
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -2267,7 +2269,7 @@ angular.module('your_app_name.controllers', [])
                             url: domain + 'doctrsrecords/share',
                             params: {id: recId, userId: $scope.userId, docId: $scope.userId, patientId: $scope.patientId, shared: 0}
                         }).then(function successCallback(response) {
-                            $ionicLoading.show();
+                            $ionicLoading.hide();
                             console.log(response);
                             if (response.data == 'Success') {
                                 alert("Records shared successfully!");
@@ -2576,6 +2578,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.goto = function () {
                 var from = get('from');
+                unset(['from', 'noteId']);
                 if (from == 'app.patient')
                     $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
                 else if (from == 'app.consultation-past')
@@ -11441,6 +11444,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.subpage = function (ab) {
+                $ionicLoading.show({template: 'Loading..'});
                 if (ab == 'createdbyu') {
                     $scope.crtedbyu = true;
                     $scope.sharddbyu = false;
@@ -11462,6 +11466,31 @@ angular.module('your_app_name.controllers', [])
                         $scope.problems = response.data.problems;
                         $scope.cases = response.data.cases;
                         $scope.doctrs = response.data.shareDoctrs;
+                        $scope.createdietRec = response.data.dietRec;
+                        $scope.createdietDetails = response.data.dietDetails;
+                        angular.forEach($scope.records, function (value, key) {
+                            console.log(key);
+                            angular.forEach(value.record_metadata, function (val, k) {
+                                console.log();
+                                if (value.category == 30) {
+                                    if (val.field_id == 'no-of-frequency') {
+                                        $scope.repeatFreq[key] = val.value;
+                                    }
+                                    if (val.field_id == 'no-of-times') {
+                                        $scope.repeatNo[key] = val.value;
+                                    }
+                                }
+                                if (value.category == 3) {
+                                    if (val.field_id == 'no-of-frequency-1') {
+                                        $scope.repeatFreq[key] = val.value;
+                                    }
+                                }
+                            });
+                        });
+                        console.log($scope.repeatNo);
+                        console.log($scope.repeatFreq);
+                        $ionicLoading.hide();
+                        $ionicLoading.show({template: 'Loading..'});
                         $http({
                             method: 'GET',
                             url: domain + 'doctrsrecords/get-all-records-details',
@@ -11469,11 +11498,42 @@ angular.module('your_app_name.controllers', [])
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             $scope.sharedRecords = response.data.records;
-                            $scope.loading = false;
+                            if (response.data.records != 0) {
+                                if ($scope.sharedRecords[0].record_metadata.length == 6) {
+                                    $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                                }
+                            }
+                            $scope.createdbyShared = response.data.createdby;
+                            $scope.sharedoctors = response.data.doctors;
+                            $scope.sharepatient = response.data.patient;
+                            $scope.shareproblems = response.data.problems;
+                            $scope.sharedoctrs = response.data.shareDoctrs;
+                            $scope.sharedietRec = response.data.dietRec;
+                            $scope.sharedietDetails = response.data.dietDetails;
+                            angular.forEach($scope.records, function (value, key) {
+                                console.log(key);
+                                angular.forEach(value.record_metadata, function (val, k) {
+                                    console.log();
+                                    if (value.category == 30) {
+                                        if (val.field_id == 'no-of-frequency') {
+                                            $scope.sharerepeatFreq[key] = val.value;
+                                        }
+                                        if (val.field_id == 'no-of-times') {
+                                            $scope.sharerepeatNo[key] = val.value;
+                                        }
+                                    }
+                                    if (value.category == 3) {
+                                        if (val.field_id == 'no-of-frequency-1') {
+                                            $scope.sharerepeatFreq[key] = val.value;
+                                        }
+                                    }
+                                });
+                            });
+                            $ionicLoading.hide();
+                            //console.log($scope.createdbyShared);
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-                        $scope.loading = false;
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -11481,28 +11541,6 @@ angular.module('your_app_name.controllers', [])
                 if (ab == 'sharedwithyou') {
                     $scope.sharddbyu = true;
                     $scope.crtedbyu = false;
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctrsrecords/get-all-records-details',
-                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
-                    }).then(function successCallback(response) {
-                        console.log(response.data);
-                        $scope.sharedRecords = response.data.records;
-                        if (response.data.records != 0) {
-                            if ($scope.sharedRecords[0].record_metadata.length == 6) {
-                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
-                            }
-                        }
-                        $scope.createdbyShared = response.data.createdby;
-                        $scope.doctors = response.data.doctors;
-                        $scope.patient = response.data.patient;
-                        $scope.problems = response.data.problems;
-                        $scope.doctrs = response.data.shareDoctrs;
-                        $scope.loading = false;
-                        //console.log($scope.createdbyShared);
-                    }, function errorCallback(e) {
-                        console.log(e);
-                    });
                 }
             };
             // Load the modal from the given template URL
