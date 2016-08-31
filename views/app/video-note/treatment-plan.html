@@ -176,7 +176,7 @@
                 </form>
                 <div class="row">
                     <div class="col">
-                        <button class="button button-block button-positive" ng-click="saveDietplan()">Save</button>
+                        <button class="button button-block button-positive" ng-click="saveDiet()">Save</button>
                     </div>
                     <div class="col">
                         <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
@@ -193,8 +193,8 @@
                             <h2 class="post-title">Investigations {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(inv.id + 'iv')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(inv.id + 'inv', 'inv')">
+                                <span class="infb" id="{{inv.id}}invt"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -221,6 +221,11 @@
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>				  
@@ -228,7 +233,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="infomore-div" id="{{inv.id}}iv">
+                        <div class="infomore-div" id="{{inv.id}}inv">
                             <div class="row" ng-repeat="idata in invData[$index]" ng-if="$index >= 5">
                                 <div ng-if="idata.value != ''">
                                     <div class="col"><strong>{{idata.fields.field}} </strong></div>
@@ -248,6 +253,11 @@
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                             <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
@@ -273,8 +283,8 @@
                             <h2 class="post-title">Medication {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(med.id + 'med')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(med.id + 'med', 'medi')">
+                                <span class="infb" id="{{med.id}}medm"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -299,6 +309,11 @@
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                         <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
@@ -333,6 +348,11 @@
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>				  
@@ -352,11 +372,11 @@
                 <div class="card-content p0">
                     <div class="row post-heading item item-text-wrap ">
                         <div class="col col-75">
-                            <h2 class="post-title">Life Style {{$index + 1}}</h2>
+                            <h2 class="post-title">Task {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(life.id + 'life')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(life.id + 'life', 'life')">
+                                <span class="infb" id="{{life.id}}lifel"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -384,6 +404,11 @@
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                         <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
@@ -421,6 +446,11 @@
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>				  
@@ -443,8 +473,8 @@
                             <h2 class="post-title">Procedures {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(proc.id + 'proc')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(proc.id + 'proc', 'proc')">
+                                <span class="infb" id="{{proc.id}}procp"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -468,6 +498,11 @@
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                         <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
@@ -501,6 +536,11 @@
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>				  
@@ -523,8 +563,8 @@
                             <h2 class="post-title">Referral {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(ref.id + 'ref')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(ref.id + 'ref', 'ref')">
+                                <span class="infb" id="{{ref.id}}refr"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -548,6 +588,11 @@
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                         <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
@@ -581,6 +626,11 @@
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>				  
@@ -603,8 +653,8 @@
                             <h2 class="post-title">Diet Plan {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
-                            <div class="infomore" ng-click="infomore(dt.id + 'diet')">
-                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            <div class="infomore" ng-click="infomore(dt.id + 'diet', 'diet')">
+                                <span class="infb" id="{{dt.id}}dietd"> More</span> <i class="ion-android-arrow-forward"></i>
                             </div>
                         </div>
                     </div>
@@ -634,6 +684,11 @@
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                         <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
@@ -670,6 +725,11 @@
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
                                                             <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                        <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                                            <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>

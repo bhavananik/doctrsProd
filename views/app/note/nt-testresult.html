@@ -34,14 +34,14 @@
         <ion-content class="padding">
         <div class="item item-divider">Test Results</div> 	
         <label class="item item-input">
-        <textarea ng-model="testTextValue" type="text" col="" rows="5" placeholder="Enter"></textarea>	
+        <textarea ng-model="ftestText.value" type="text" col="" rows="5" placeholder="Enter"></textarea>	
         </label>
         <ion-list>
         <ion-checkbox value="1" name="isSummery" ng-model="testSum">Summary</ion-checkbox>
         </ion-list>
         <div class="row">
         <div class="col">
-        <button class="button button-block button-positive" ng-click="saveDTestresult(testTextValue, testSum)">Save</button>
+        <button class="button button-block button-positive" ng-click="saveDTestresult(ftestText.value, testSum)">Save</button>
         </div>
         <div class="col">
         <button class="button button-block button-assertive" ng-click="modal.hide()()">Cancel</button>

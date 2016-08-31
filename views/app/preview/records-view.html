@@ -44,7 +44,7 @@
                         </div>
                         <div class="post-content item item-text-wrap p0" >
                             <div class="row" ng-repeat="detail in rec.record_metadata| limitTo: 3">
-                                <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                                <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
                                 <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                         {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
                                     </span>

@@ -33,14 +33,14 @@
     <ion-content class="padding">
     <div class="item item-divider">Observations</div>
             <label class="item item-input">
-                <textarea ng-model="objTextValue" type="text" col="" rows="5" placeholder="Enter"></textarea>	
+                <textarea ng-model="fobjText.value" type="text" col="" rows="5" placeholder="Enter"></textarea>	
             </label>
             <ion-list>
                 <ion-checkbox value="1" name="isSummery" ng-model="objSum">Summary</ion-checkbox>
             </ion-list>
             <div class="row">
                 <div class="col">
-                    <button class="button button-block button-positive" ng-click="saveDObj(objTextValue, objSum)">Save</button>
+                    <button class="button button-block button-positive" ng-click="saveDObj(fobjText.value, objSum)">Save</button>
                 </div>
                 <div class="col">
                     <button class="button button-block button-assertive" ng-click="modal.hide()">Cancel</button>

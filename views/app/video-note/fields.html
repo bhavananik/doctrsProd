@@ -689,7 +689,7 @@
                 <input type="hidden" value="Conducted" id="proconduct" name="{{field.name}}" />
             </div>
             <div ng-if="category == 3" >
-                <ion-toggle ng-model="mediStatus" ng-checked="0"  ng-click="check(mediStatus)" ng-change="check(mediStatus)" toggle-class="toggle-positive"> Active </ion-toggle>
+                <ion-toggle ng-model="mediStatus" ng-checked="1"  ng-click="check(mediStatus)" ng-change="check(mediStatus)" toggle-class="toggle-positive"> Active </ion-toggle>
                 <input type="hidden" value="Active" id="mediStatus" name="{{field.name}}" />
             </div>
             <div ng-if="category == 5" >
