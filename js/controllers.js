@@ -2244,7 +2244,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.previewNote = function (noteId, appId) {
                 console.log(noteId + "====" + appId);
-                store({'noteId': noteId});
+                store({'noteId': noteId, 'from': 'app.patient'});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
             };
             $scope.print = function (attachValue) {
@@ -2491,7 +2491,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
             }
-            ;
+
             $scope.selPatient = function (pid, name) {
                 console.log(pid + "Name = " + name);
                 $scope.patientId = pid;
@@ -2575,7 +2575,15 @@ angular.module('your_app_name.controllers', [])
                 $state.go(glink);
             };
             $scope.goto = function () {
-                $state.go('app.patient', ({'id': $scope.patientId}));
+                var from = get('from');
+                if (from == 'app.patient')
+                    $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
+                else if (from == 'app.consultation-past')
+                    $state.go('app.consultation-past', {}, {reload: true});
+                else if (from == 'app.doctor-consultations')
+                    $state.go('app.doctor-consultations', {}, {reload: true});
+                else 
+                    $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
             };
             /* New Added */
             $scope.intext = 'more';
@@ -7451,7 +7459,7 @@ angular.module('your_app_name.controllers', [])
             $scope.viewNote = function (noteId, appId) {
                 //alert(appId);
                 //store({'noteId': noteId});
-                store({'recId': noteId});
+                store({'noteId': noteId, 'from': 'app.doctor-consultations'});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
                 //$state.go("app.view-note", {'id': noteId}, {reload: true});
             };
@@ -7628,7 +7636,7 @@ angular.module('your_app_name.controllers', [])
             $scope.viewNote = function (noteId, appId) {
                 //alert(appId);
                 //store({'noteId': noteId});
-                store({'recId': noteId});
+                store({'noteId': noteId});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
                 //$state.go("app.view-note", {'id': noteId}, {reload: true});
             };
@@ -7752,7 +7760,7 @@ angular.module('your_app_name.controllers', [])
             //Go to consultation view page
             $scope.viewNote = function (noteId) {
                 //alert(appId);
-                store({'noteId': noteId});
+                store({'noteId': noteId, 'from': 'app.consultation-past'});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
             $scope.viewMedicine = function (consultationId) {
@@ -11611,25 +11619,25 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = window.localStorage.getItem('noteId');
             $scope.catId = 'Measurements';
             $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-measure-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: '', recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    console.log(response);
-                    $scope.mrecords = response.data.record;
-                    $scope.mfields = response.data.fields;
-                    $scope.editRec = response.data.editRec;
-                    $scope.abtMeasure = response.data.abt;
-                    $rootScope.abtMeasure = response.data.abt;
-                    $scope.measurement = response.data.measurement;
-                    $scope.mid = response.data.mid;
-                    if (response.data.mid.length > 0) {
-                        $scope.measure = 'yes';
-                    }
-                    $ionicLoading.hide();
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-measure-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: '', recId: $scope.recId}
+            }).then(function successCallback(response) {
+                console.log(response);
+                $scope.mrecords = response.data.record;
+                $scope.mfields = response.data.fields;
+                $scope.editRec = response.data.editRec;
+                $scope.abtMeasure = response.data.abt;
+                $rootScope.abtMeasure = response.data.abt;
+                $scope.measurement = response.data.measurement;
+                $scope.mid = response.data.mid;
+                if (response.data.mid.length > 0) {
+                    $scope.measure = 'yes';
+                }
+                $ionicLoading.hide();
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $rootScope.$on("GetMeasurements", function () {
                 $scope.getMeasurements();
             });
@@ -11834,24 +11842,24 @@ angular.module('your_app_name.controllers', [])
             $scope.procedure = [];
             $scope.proData = [];
             $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    //console.log(response);
-                    $scope.records = response.data.record;
-                    $scope.fields = response.data.fields;
-                    $scope.category = $scope.records.id;
-                    $scope.problems = response.data.problems;
-                    $scope.doctrs = response.data.doctrs;
-                    $rootScope.proc = response.data.prevRec;
-                    $scope.procedure = response.data.prevRec;
-                    $scope.proData = response.data.prevData;
-                    $ionicLoading.hide();
-                    //console.log("Prev Proc " + $scope.procedure);
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-investigation-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+            }).then(function successCallback(response) {
+                //console.log(response);
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.category = $scope.records.id;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $rootScope.proc = response.data.prevRec;
+                $scope.procedure = response.data.prevRec;
+                $scope.proData = response.data.prevData;
+                $ionicLoading.hide();
+                //console.log("Prev Proc " + $scope.procedure);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $rootScope.$on("GetProcDetails", function () {
                 $scope.getProcDetails();
             });
@@ -11899,23 +11907,23 @@ angular.module('your_app_name.controllers', [])
             $scope.referral = [];
             $scope.refData = [];
             $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    //console.log(response);
-                    $scope.records = response.data.record;
-                    $scope.fields = response.data.fields;
-                    $scope.category = $scope.records.id;
-                    $scope.problems = response.data.problems;
-                    $scope.doctrs = response.data.doctrs;
-                    $rootScope.refer = response.data.prevRec;
-                    $scope.referral = response.data.prevRec;
-                    $scope.refData = response.data.prevData;
-                    $ionicLoading.hide();
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-investigation-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+            }).then(function successCallback(response) {
+                //console.log(response);
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.category = $scope.records.id;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $rootScope.refer = response.data.prevRec;
+                $scope.referral = response.data.prevRec;
+                $scope.refData = response.data.prevData;
+                $ionicLoading.hide();
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $rootScope.$on("GetRefDetails", function () {
                 $scope.getRefDetails();
             });
@@ -11966,32 +11974,32 @@ angular.module('your_app_name.controllers', [])
             $scope.lifestyle = [];
             $scope.lifeData = [];
             $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    //console.log(response);
-                    $scope.records = response.data.record;
-                    $scope.fields = response.data.fields;
-                    $scope.category = $scope.records.id;
-                    //$scope.categoryId = $scope.records.id;
-                    $scope.problems = response.data.problems;
-                    $scope.doctrs = response.data.doctrs;
-                    $rootScope.life = response.data.prevRec;
-                    $scope.lifestyle = response.data.prevRec;
-                    $scope.lifeData = response.data.prevData;
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-investigation-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+            }).then(function successCallback(response) {
+                //console.log(response);
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.category = $scope.records.id;
+                //$scope.categoryId = $scope.records.id;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $rootScope.life = response.data.prevRec;
+                $scope.lifestyle = response.data.prevRec;
+                $scope.lifeData = response.data.prevData;
 
-                    angular.forEach(response.data.prevData, function (val, key) {
-                        angular.forEach(val, function (medi, k) {
-                            if (medi.field_id == 'no-of-frequency') {
-                                $scope.repeatFreq[(k - 1)] = medi.value;
-                            }
-                        });
+                angular.forEach(response.data.prevData, function (val, key) {
+                    angular.forEach(val, function (medi, k) {
+                        if (medi.field_id == 'no-of-frequency') {
+                            $scope.repeatFreq[(k - 1)] = medi.value;
+                        }
                     });
-                    $ionicLoading.hide();
-                }, function errorCallback(response) {
-                    console.log(response);
                 });
+                $ionicLoading.hide();
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $rootScope.$on("GetLifeDetails", function () {
                 $scope.getLifeDetails();
             });
