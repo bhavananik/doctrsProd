@@ -73,10 +73,24 @@
                     <div class="item item-divider">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="fieldvalue" ng-if="isAttachment != ''">  
-                        <span class="ico cursor-pointer" ng-click="showAttach(prev.attachments)">
-                            <i class="ion-paperclip"></i> ({{prev.attachments.length}})
+                    <div class="" ng-if="isAttachment != ''">
+                        <span ng-repeat="attach in prev.attachments" >
+                            <span ng-init="selData = (attach.orginial_name).split('.')">
+                                <span ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </span>
+                                <span ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </span>
+                            </span>
                         </span>
+                        <!--                        <span class="ico cursor-pointer" ng-click="showAttach(prev.attachments)">
+                                                    <i class="ion-paperclip"></i> ({{prev.attachments.length}})
+                                                </span>-->
                     </div>
                 </div>
             </div>
