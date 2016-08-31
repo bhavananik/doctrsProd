@@ -39,6 +39,11 @@
                                             <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                         </span>
                                     </span>
+                                    <span ng-if="category[0].id == 3">
+                                        <span ng-if="detail.fields.name == 'frequency'" >
+                                            <span>{{detail.value}} time{{detail.value>1? 's':''}} in {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                        </span>
+                                    </span>
                                     <span ng-if="catId != 30">
                                         <span ng-if="detail.fields.field == 'Frequency'" ng-init="fdata = ((detail.value) / 24)">
                                             {{fdata}} time{{fdata!=1? 's':''}} in day{{fdata!=1? 's':''}}
