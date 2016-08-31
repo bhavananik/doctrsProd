@@ -48,8 +48,8 @@
                             </div>
                         </div>
                         <div class="post-content item item-text-wrap p0" >
-                            <div class="row" ng-repeat="detail in rec.record_metadata| limitTo: 4">
-                                <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
+                            <div class="row" ng-repeat="detail in rec.record_metadata|  limitTo: recLimit[$index]">
+                                <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
                                 <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                         {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
                                     </span>
@@ -64,7 +64,7 @@
                                     </span>
                                     <span ng-if="rec.category == 30">
                                         <span ng-if="detail.fields.field == 'Frequency'" >
-                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{$parent.$parent.$parent.$parent.$index}}{{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                             <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                         </span>
                                     </span>
@@ -74,7 +74,7 @@
                                                 <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</div>
                                         </div>
                                     </span>
-                                    <span ng-if="detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                    <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
@@ -91,7 +91,7 @@
                             </div>                            
                             <div class="infomore-div" id="{{rec.id}}created">
                                 <div class="row" ng-repeat="detail in rec.record_metadata" ng-if="$index >= 4">
-                                    <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                                    <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
                                     <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                             {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
                                         </span>
@@ -128,12 +128,12 @@
                                                 </span>
                                             </span>
                                         </span>
-                                        <span ng-if="detail.fields.name != 'mode' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                        <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.name != 'mode' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                             <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
                                             <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                             <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
                                         </span>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -198,8 +198,8 @@
                             </div>
                         </div>
                         <div class="post-content item item-text-wrap p0" >
-                            <div class="row" ng-repeat="detail in rec.record_metadata| limitTo: 3">
-                                <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                            <div class="row" ng-repeat="detail in rec.record_metadata| limitTo: recsLimit[$index]">
+                                <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
                                 <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                         {{sharedoctors[$parent.$parent.$index].fname}} {{shareddoctors[$parent.$parent.$index].lname}}
                                     </span>
@@ -220,11 +220,11 @@
                                     </span>
                                     <span ng-if="detail.fields.field == 'No of days'">
                                         <div class="dietdays" >
-                                            <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in sharedietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="sdayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
+                                            <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in createdietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="dayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
                                                 <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</div>
                                         </div>
                                     </span>
-                                    <span ng-if="detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                    <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
@@ -241,7 +241,7 @@
                             </div>                            
                             <div class="infomore-div" id="{{rec.id}}created">
                                 <div class="row" ng-repeat="detail in rec.record_metadata" ng-if="$index >= 4">
-                                    <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                                    <div class="col"><strong ng-if="detail.value != '' && detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times'">{{detail.fields.field}}</strong></div>
                                     <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                             {{shareddoctors[$parent.$parent.$index].fname}} {{shareddoctors[$parent.$parent.$index].lname}}
                                         </span>
@@ -254,19 +254,19 @@
                                         <span ng-if="detail.fields.field == 'Case Id'" >
                                             {{sharedcases[$parent.$parent.$index].value}}
                                         </span>
-                                        <span ng-if="detail.fields.field == 'No of days'">
-                                            <div class="dietdays" >
-                                                <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in sharedietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="sdayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
-                                                    <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</div>
-                                            </div>
-                                        </span>
                                         <span ng-if="rec.category == 30">
                                             <span ng-if="detail.fields.field == 'Frequency'" >
                                                 <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                                 <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                             </span>
                                         </span>
-                                        <span ng-if="detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                        <span ng-if="detail.fields.field == 'No of days'">
+                                            <div class="dietdays" >
+                                                <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in createdietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="dayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
+                                                    <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</div>
+                                            </div>
+                                        </span>
+                                        <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                             <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
                                             <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                             <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>

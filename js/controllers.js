@@ -2057,6 +2057,8 @@ angular.module('your_app_name.controllers', [])
                 if (ab == 'createdbyu') {
                     $scope.crtedbyu = true;
                     $scope.sharddbyu = false;
+                    $scope.recLimit = [];
+                    $scope.recsLimit = [];
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-all-records-details',
@@ -2078,7 +2080,11 @@ angular.module('your_app_name.controllers', [])
                         $scope.createdietRec = response.data.dietRec;
                         $scope.createdietDetails = response.data.dietDetails;
                         angular.forEach($scope.records, function (value, key) {
-                            console.log(key);
+                            if (value.category == 30) {
+                                $scope.recLimit[key] = 2;
+                            } else {
+                                $scope.recLimit[key] = 4;
+                            }
                             angular.forEach(value.record_metadata, function (val, k) {
                                 console.log();
                                 if (value.category == 30) {
@@ -2096,6 +2102,7 @@ angular.module('your_app_name.controllers', [])
                                 }
                             });
                         });
+                        console.log($scope.recLimit);
                         console.log($scope.repeatNo);
                         console.log($scope.repeatFreq);
                         $ionicLoading.hide();
@@ -2120,7 +2127,11 @@ angular.module('your_app_name.controllers', [])
                             $scope.sharedietRec = response.data.dietRec;
                             $scope.sharedietDetails = response.data.dietDetails;
                             angular.forEach($scope.records, function (value, key) {
-                                console.log(key);
+                                if (value.category == 30) {
+                                    $scope.recsLimit[key] = 2;
+                                } else {
+                                    $scope.recsLimit[key] = 4;
+                                }
                                 angular.forEach(value.record_metadata, function (val, k) {
                                     console.log();
                                     if (value.category == 30) {
@@ -2585,7 +2596,7 @@ angular.module('your_app_name.controllers', [])
                     $state.go('app.consultation-past', {}, {reload: true});
                 else if (from == 'app.doctor-consultations')
                     $state.go('app.doctor-consultations', {}, {reload: true});
-                else 
+                else
                     $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
             };
             /* New Added */
@@ -11448,6 +11459,8 @@ angular.module('your_app_name.controllers', [])
                 if (ab == 'createdbyu') {
                     $scope.crtedbyu = true;
                     $scope.sharddbyu = false;
+                    $scope.recLimit = [];
+                    $scope.recsLimit = [];
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-all-records-details',
@@ -11469,7 +11482,11 @@ angular.module('your_app_name.controllers', [])
                         $scope.createdietRec = response.data.dietRec;
                         $scope.createdietDetails = response.data.dietDetails;
                         angular.forEach($scope.records, function (value, key) {
-                            console.log(key);
+                            if (value.category == 30) {
+                                $scope.recLimit[key] = 2;
+                            } else {
+                                $scope.recLimit[key] = 4;
+                            }
                             angular.forEach(value.record_metadata, function (val, k) {
                                 console.log();
                                 if (value.category == 30) {
@@ -11511,7 +11528,11 @@ angular.module('your_app_name.controllers', [])
                             $scope.sharedietRec = response.data.dietRec;
                             $scope.sharedietDetails = response.data.dietDetails;
                             angular.forEach($scope.records, function (value, key) {
-                                console.log(key);
+                                if (value.category == 30) {
+                                    $scope.recsLimit[key] = 2;
+                                } else {
+                                    $scope.recsLimit[key] = 4;
+                                }
                                 angular.forEach(value.record_metadata, function (val, k) {
                                     console.log();
                                     if (value.category == 30) {
