@@ -10436,6 +10436,10 @@ angular.module('your_app_name.controllers', [])
             $rootScope.dietRec = [];
             $rootScope.dietDetails = [];
             $rootScope.allDiet = [];
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
+            $scope.sharerepeatFreq = [];
+            $scope.sharerepeatNo = [];
             var stoppedTimer;
             $scope.Timercounter;
             var statstimer;
