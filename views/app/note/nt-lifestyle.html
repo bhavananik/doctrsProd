@@ -27,7 +27,7 @@
                                         </div>
                                     </div>
                                     <div ng-if="ldata.fields.field == 'Frequency'"> 
-                                        <div ng-if="ldata.value == 'Repeat'"> {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
+                                        <div ng-if="ldata.value == 'Repeat'"> Once Every {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
                                         <div ng-if="ldata.value != 'Repeat'">{{ldata.value}}</div>
                                     </div>
                                     <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
