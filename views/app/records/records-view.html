@@ -26,7 +26,7 @@
                             <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit">
                                 <!--{{$index == 0 ? '<p>': ''}} -->
                                 <p>
-                                    <strong>{{detail.fields.field| capitalize}}</strong><br/>
+                                    <strong ng-if="detail.fields.name != 'no-of-frequency-1'  && detail.fields.name != 'no-of-times'">{{detail.fields.field| capitalize}}</strong><br/>
                                     <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                         {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
                                     </span>
@@ -35,7 +35,7 @@
                                     </span>
                                     <span ng-if="catId == 30">
                                         <span ng-if="detail.fields.field == 'Frequency'" >
-                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="detail.value == 'Repeat'">Once Every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                             <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                         </span>
                                     </span>
@@ -63,7 +63,7 @@
                                             <span ng-if="detail.value != ''">{{detail.value}}</span>
                                         </span>
                                     </span>
-                                    <span ng-if="detail.fields.name == 'no-of-times'"> 1
+                                    <span ng-if="detail.fields.name == 'no-of-times'">
                                     </span>
                                 </p>
                                 <!--{{$index % 2 == 0|| $index == limit? '</p>' : ''}}

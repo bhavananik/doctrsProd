@@ -64,7 +64,7 @@
                                     </span>
                                     <span ng-if="rec.category == 30">
                                         <span ng-if="detail.fields.field == 'Frequency'" >
-                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="detail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                             <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                         </span>
                                     </span>
