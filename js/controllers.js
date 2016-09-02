@@ -8166,11 +8166,23 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
+                        //keygeneration
+                        var phone1 = responseData.data.user[0].phone;
+                        var phone2 = window.localStorage.getItem('phone');
+                        var passphrase = "9773001965";
+                        if (phone1>phone2){
+                            passphrase =  phone1 + phone2;
+                        }
+                        else{
+                            passphrase = phone2 + phone1;
+                        }
+                        privateKey =  cryptico.generateRSAKey(passphrase, 1024);
                         // console.log(responseData);
                         //$scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
                         // $scope.chatMsgTime = $filter('date')(new Date(responseData.data.msg.tstamp), 'yyyy-MM-dd');
                         //console.log($scope.curDate + '@@@' + $scope.chatMsgTime);
-
+                        if (responseData.data.msg !=null)
+                        responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $scope.unreadCnt[key] = responseData.data.unreadCnt;
@@ -8640,6 +8652,19 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+
+                    var phone1 =  $scope.user.phone;
+                    var phone2 =  $scope.otherUser.phone;
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);
+
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -8653,6 +8678,7 @@ angular.module('your_app_name.controllers', [])
                     } else {
                         console.error("error source 2" + err);
                     }
+
                 });
             }, function errorCallback(e) {
                 console.log(e);
@@ -8674,6 +8700,7 @@ angular.module('your_app_name.controllers', [])
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
+                        value.message = decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
