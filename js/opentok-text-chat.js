@@ -317,23 +317,25 @@
                 return div;
             },
             _getBubble: function (message) {
-                var bubble = this._bubbleTemplate.cloneNode(true);
-                var wrapper = bubble.querySelector('div');
-                var sender = wrapper.querySelector('.ot-message-sender');
-                var timestamp = wrapper.querySelector('.ot-message-timestamp');
-                // Sender & alias
-                bubble.dataset.senderId = message.senderId;
-                if (message.senderId === this.senderId) {
-                    bubble.classList.add('mine');
+                if (decrypt(message.text) != '') {
+                    var bubble = this._bubbleTemplate.cloneNode(true);
+                    var wrapper = bubble.querySelector('div');
+                    var sender = wrapper.querySelector('.ot-message-sender');
+                    var timestamp = wrapper.querySelector('.ot-message-timestamp');
+                    // Sender & alias
+                    bubble.dataset.senderId = message.senderId;
+                    if (message.senderId === this.senderId) {
+                        bubble.classList.add('mine');
+                    }
+                    sender.textContent = message.senderAlias;
+                    // Content
+                    var contents = this.renderMessage(message.text, false);
+                    wrapper.appendChild(this._getBubbleContent(contents));
+                    // Timestamp
+                    timestamp.dateTime = message.dateTime.toISOString();
+                    timestamp.textContent = this.humanizeDate(message.dateTime);
+                    return bubble;
                 }
-                sender.textContent = message.senderAlias;
-                // Content
-                var contents = this.renderMessage(message.text, false);
-                wrapper.appendChild(this._getBubbleContent(contents));
-                // Timestamp
-                timestamp.dateTime = message.dateTime.toISOString();
-                timestamp.textContent = this.humanizeDate(message.dateTime);
-                return bubble;
             },
             /**
              * Called when displaying a message to human format the date.
@@ -390,7 +392,7 @@
                 var signal = this._getMessageSignal(text);
                 this._session.signal(signal, callback);
                 console.log(text);
-                if (text != '') {
+                if (decrypt(text) != '') {
                     ajaxCall("GET", domain + "doctorsapp/add-chat-msg", {chat_id: window.localStorage.getItem('chatId'), from: window.localStorage.getItem('id'), to: window.localStorage.getItem('Toid'), msg: text},
                             function (response) {
                                 //console.log(response);
@@ -530,10 +532,14 @@
                 raw = decrypt(raw);
                 output = raw.replace(/(\r\n|\r|\n)/g, '<br/>');
                 // Detect links
-                output = output.replace(links, function (href) {
-                    return '<a href="' + href + '" target="_blank">' + href + '</a>';
-                });
-                return output;
+                if (output != "") {
+                    output = output.replace(links, function (href) {
+                        return '<a href="' + href + '" target="_blank">' + href + '</a>';
+                    });
+                    return output;
+                } else {
+                    return output;
+                }
             }
         };
         return ChatWidget;
