@@ -7309,13 +7309,46 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
-            $scope.doRefresh = function () {
-                $scope.$broadcast('scroll.refreshComplete');
-            };
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.interface = get('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            var data = {id:$scope.drId }
+            $scope.doRefresh = function () {
+                $http.get('appointment/get-patient-active-details',data)
+                        .success(function (response) {
+                            $scope.todays_data = response.data.todays_data;
+                            $scope.todays_app = response.data.todays_appointments;
+                            $scope.todays_usersData = response.data.todays_usersData;
+                            $scope.todays_products = response.data.todays_products;
+                            $scope.todays_time = response.data.todays_time;
+                            $scope.todays_end_time = response.data.todays_end_time;
+                            $scope.todays_note = response.data.todays_note;
+                            $scope.todays_medicine = response.data.todays_medicine;
+                            $scope.week_data = response.data.week_data;
+                            $scope.week_app = response.data.week_appointments;
+                            $scope.week_usersData = response.data.week_usersData;
+                            $scope.week_products = response.data.week_products;
+                            $scope.week_time = response.data.week_time;
+                            $scope.week_end_time = response.data.week_end_time;
+                            $scope.week_note = response.data.week_note;
+                            $scope.week_medicine = response.data.week_medicine;
+                            $scope.all_data = response.data.all_data;
+                            $scope.all_app = response.data.all_appointments;
+                            $scope.all_usersData = response.data.all_usersData;
+                            $scope.all_products = response.data.all_products;
+                            $scope.all_time = response.data.all_time;
+                            $scope.all_end_time = response.data.all_end_time;
+                            $scope.all_note = response.data.all_note;
+                            $scope.all_medicine = response.data.all_medicine;
+                            $scope.timeLimit = response.data.timelimit.cancellation_time;
+                        })
+                        .finally(function () {
+                            // Stop the ion-refresher from spinning
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+            };
+            
             $http({
                 method: 'GET',
                 url: domain + 'appointment/get-patient-active-details',
@@ -8170,19 +8203,18 @@ angular.module('your_app_name.controllers', [])
                         var phone1 = responseData.data.user[0].phone;
                         var phone2 = window.localStorage.getItem('phone');
                         var passphrase = "9773001965";
-                        if (phone1>phone2){
-                            passphrase =  phone1 + phone2;
-                        }
-                        else{
+                        if (phone1 > phone2) {
+                            passphrase = phone1 + phone2;
+                        } else {
                             passphrase = phone2 + phone1;
                         }
-                        privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                        privateKey = cryptico.generateRSAKey(passphrase, 1024);
                         // console.log(responseData);
                         //$scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
                         // $scope.chatMsgTime = $filter('date')(new Date(responseData.data.msg.tstamp), 'yyyy-MM-dd');
                         //console.log($scope.curDate + '@@@' + $scope.chatMsgTime);
-                        if (responseData.data.msg !=null)
-                        responseData.data.msg.message = decrypt(responseData.data.msg.message);
+                        if (responseData.data.msg != null)
+                            responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $scope.unreadCnt[key] = responseData.data.unreadCnt;
@@ -8653,17 +8685,16 @@ angular.module('your_app_name.controllers', [])
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
 
-                    var phone1 =  $scope.user.phone;
-                    var phone2 =  $scope.otherUser.phone;
-                    var passphrase = "9773001965";
-                    if (phone1>phone2){
-                        passphrase =  phone1 + phone2;
-                    }
-                    else{
-                        passphrase = phone2 + phone1;
-                    }
-                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
-                    publicKey = cryptico.publicKeyString(privateKey);
+                var phone1 = $scope.user.phone;
+                var phone2 = $scope.otherUser.phone;
+                var passphrase = "9773001965";
+                if (phone1 > phone2) {
+                    passphrase = phone1 + phone2;
+                } else {
+                    passphrase = phone2 + phone1;
+                }
+                privateKey = cryptico.generateRSAKey(passphrase, 1024);
+                publicKey = cryptico.publicKeyString(privateKey);
 
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
