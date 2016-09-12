@@ -8217,7 +8217,7 @@ angular.module('your_app_name.controllers', [])
                             }
                             privateKey =  cryptico.generateRSAKey(passphrase, 1024);
                             responseData.data.msg.message = decrypt(responseData.data.msg.message);
-                        }
+                        
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
