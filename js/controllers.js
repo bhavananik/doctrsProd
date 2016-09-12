@@ -1996,7 +1996,7 @@ angular.module('your_app_name.controllers', [])
             $ionicLoading.show({template: 'Loading..'});
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
-            unset(['backurl']);
+            unset(['backurl', 'recId', 'appId']);
             $scope.createdby = [];
             $scope.createdbyShared = [];
             $scope.repeatFreq = [];
@@ -4115,7 +4115,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.testSum = '';
             $rootScope.objId = '';
             $rootScope.objText = [];
-            $rootScope.fobjText = {Value: ''};
+            $rootScope.fobjText = {value: ''};
             $rootScope.observation = {};
             $rootScope.objSum = '';
             $rootScope.investigation = [];
@@ -4416,10 +4416,11 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.show({template: 'Saving...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
-                        //console.log(response);
+                        console.log("Saved CN " + response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             store({'recId': response.records.id});
+                            jQuery("[name='recId']").val($scope.recId);
                             $scope.recId = response.records.id;
                             $scope.getCnDetails();
                             //alert("Consultation Note added successfully!");
@@ -4446,11 +4447,11 @@ angular.module('your_app_name.controllers', [])
                         $scope.recId = response.records.id;
                         $rootScope.recCId = $scope.recId;
                         jQuery('.cnoteid').val(response.records.id);
-                        $scope.saveMeasurements();
+                        //$scope.saveMeasurements();
                         $rootScope.$emit("SavePatient", {});
-                        $rootScope.$emit("SaveObjservation", (response.records.id));
-                        $rootScope.$emit("SaveTestResult", (response.records.id));
-                        $rootScope.$emit("SaveDigno", (response.records.id));
+//                        $rootScope.$emit("SaveObjservation", (response.records.id));
+//                        $rootScope.$emit("SaveTestResult", (response.records.id));
+//                        $rootScope.$emit("SaveDigno", (response.records.id));
                         $ionicHistory.nextViewOptions({
                             historyRoot: true
                         });
@@ -4478,6 +4479,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.saveMeasurements = function () {
                 jQuery('#patientId').val($scope.patientId);
+                jQuery("[name='cnId']").val($scope.recId);
                 console.log("From Consultation Note - Measurements");
                 var data = new FormData(jQuery("#addMeasureForm")[0]);
                 console.log(data);
@@ -5250,8 +5252,8 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
-            $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.appId = get('appId');
+            $scope.recId = get('recId');
             $scope.catId = 'Measurements';
             $http({
                 method: 'GET',
@@ -5482,7 +5484,7 @@ angular.module('your_app_name.controllers', [])
             $scope.testText = [];
             $scope.testresult = {};
             $scope.ftestText = {value: ''};
-            $scope.recId = get('recId');
+            $scope.cnId = get('recId');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-testresult-lang',
@@ -5527,7 +5529,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.patientId = get('patientId');
                     $scope.doctorId = get('doctorId');
                 }
-                $scope.cnId = $rootScope.recCId;
+                $scope.cnId = $rootScope.recId;
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-testresults',
@@ -5650,17 +5652,16 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveDDiagnosis = function (diagnosis) {
+                console.log("Diagnosis tesxg > " + diagnosis + " Dia Text => " + $scope.fdiaText.value);
                 $scope.patientId = get('patientId');
                 $scope.doctorId = get('doctorId');
                 $scope.catId = '';
                 $scope.cnId = $scope.recId;
-                $scope.diaTextValue = diagnosis;
-                $scope.diaText.value = diagnosis
-                if ($scope.diaTextValue != '') {
+                if ($scope.fdiaText.value != '') {
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/save-diagnosis',
-                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, diaType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, diaText: diagnosis, diaId: $scope.diaId}
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, diaType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, diaText: $scope.fdiaText.value, diaId: $scope.diaId}
                     }).then(function successCallback(response) {
                         if (angular.isObject(response.data.records)) {
                             $scope.diaId = response.data.records.id;
@@ -5670,6 +5671,8 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
+                } else {
+                    console.log("dia blank");
                 }
             };
         })
@@ -7350,7 +7353,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
-                   $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$broadcast('scroll.refreshComplete');
                 })
 
             };
@@ -7525,6 +7528,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorConsultationsActiveJoinPageCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
+            unset(['backurl', 'recId', 'appId']);
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
@@ -7702,10 +7706,11 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
+            unset(['backurl', 'recId', 'appId']);
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-             $scope.doRefresh = function () {
+            $scope.doRefresh = function () {
                 console.log("jskhfksjdf");
                 $http({
                     method: 'GET',
@@ -7741,7 +7746,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
-                   $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$broadcast('scroll.refreshComplete');
                 })
 
             };
@@ -8204,18 +8209,17 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
-                        if(responseData.data.msg !== null){
-                        //keygeneration
+                        if (responseData.data.msg !== null) {
+                            //keygeneration
                             var phone1 = responseData.data.user[0].phone;
                             var phone2 = window.localStorage.getItem('phone');
                             var passphrase = "9773001965";
-                            if (phone1>phone2){
-                                passphrase =  phone1 + phone2;
-                            }
-                            else{
+                            if (phone1 > phone2) {
+                                passphrase = phone1 + phone2;
+                            } else {
                                 passphrase = phone2 + phone1;
                             }
-                            privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                            privateKey = cryptico.generateRSAKey(passphrase, 1024);
                             responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         }
                         console.log(responseData);
