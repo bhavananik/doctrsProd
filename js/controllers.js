@@ -7856,10 +7856,17 @@ angular.module('your_app_name.controllers', [])
                 $state.go("app.cnote", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
-            $scope.viewNote = function (noteId) {
+//            $scope.viewNote = function (noteId) {
+//                //alert(appId);
+//                store({'noteId': noteId, 'from': 'app.consultation-past'});
+//                $state.go("app.view-note", {'id': noteId}, {reload: true});
+//            };
+            $scope.viewNote = function (noteId, appId) {
                 //alert(appId);
-                store({'noteId': noteId, 'from': 'app.consultation-past'});
-                $state.go("app.view-note", {'id': noteId}, {reload: true});
+                //store({'noteId': noteId});
+                store({'noteId': noteId});
+                $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
+                //$state.go("app.view-note", {'id': noteId}, {reload: true});
             };
             $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
