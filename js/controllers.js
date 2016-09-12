@@ -7313,42 +7313,48 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.interface = get('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-            var data = {id:$scope.drId }
+
             $scope.doRefresh = function () {
-                $http.get('appointment/get-patient-active-details',data)
-                        .success(function (response) {
-                            $scope.todays_data = response.data.todays_data;
-                            $scope.todays_app = response.data.todays_appointments;
-                            $scope.todays_usersData = response.data.todays_usersData;
-                            $scope.todays_products = response.data.todays_products;
-                            $scope.todays_time = response.data.todays_time;
-                            $scope.todays_end_time = response.data.todays_end_time;
-                            $scope.todays_note = response.data.todays_note;
-                            $scope.todays_medicine = response.data.todays_medicine;
-                            $scope.week_data = response.data.week_data;
-                            $scope.week_app = response.data.week_appointments;
-                            $scope.week_usersData = response.data.week_usersData;
-                            $scope.week_products = response.data.week_products;
-                            $scope.week_time = response.data.week_time;
-                            $scope.week_end_time = response.data.week_end_time;
-                            $scope.week_note = response.data.week_note;
-                            $scope.week_medicine = response.data.week_medicine;
-                            $scope.all_data = response.data.all_data;
-                            $scope.all_app = response.data.all_appointments;
-                            $scope.all_usersData = response.data.all_usersData;
-                            $scope.all_products = response.data.all_products;
-                            $scope.all_time = response.data.all_time;
-                            $scope.all_end_time = response.data.all_end_time;
-                            $scope.all_note = response.data.all_note;
-                            $scope.all_medicine = response.data.all_medicine;
-                            $scope.timeLimit = response.data.timelimit.cancellation_time;
-                        })
-                        .finally(function () {
-                            // Stop the ion-refresher from spinning
-                            $scope.$broadcast('scroll.refreshComplete');
-                        });
+                console.log("jskhfksjdf");
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/get-patient-active-details',
+                    params: {id: $scope.drId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.todays_data = response.data.todays_data;
+                    $scope.todays_app = response.data.todays_appointments;
+                    $scope.todays_usersData = response.data.todays_usersData;
+                    $scope.todays_products = response.data.todays_products;
+                    $scope.todays_time = response.data.todays_time;
+                    $scope.todays_end_time = response.data.todays_end_time;
+                    $scope.todays_note = response.data.todays_note;
+                    $scope.todays_medicine = response.data.todays_medicine;
+                    $scope.week_data = response.data.week_data;
+                    $scope.week_app = response.data.week_appointments;
+                    $scope.week_usersData = response.data.week_usersData;
+                    $scope.week_products = response.data.week_products;
+                    $scope.week_time = response.data.week_time;
+                    $scope.week_end_time = response.data.week_end_time;
+                    $scope.week_note = response.data.week_note;
+                    $scope.week_medicine = response.data.week_medicine;
+                    $scope.all_data = response.data.all_data;
+                    $scope.all_app = response.data.all_appointments;
+                    $scope.all_usersData = response.data.all_usersData;
+                    $scope.all_products = response.data.all_products;
+                    $scope.all_time = response.data.all_time;
+                    $scope.all_end_time = response.data.all_end_time;
+                    $scope.all_note = response.data.all_note;
+                    $scope.all_medicine = response.data.all_medicine;
+                    $scope.timeLimit = response.data.timelimit.cancellation_time;
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, function errorCallback(e) {
+                   $scope.$broadcast('scroll.refreshComplete');
+                })
+
             };
-            
+
             $http({
                 method: 'GET',
                 url: domain + 'appointment/get-patient-active-details',
@@ -7699,6 +7705,46 @@ angular.module('your_app_name.controllers', [])
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+             $scope.doRefresh = function () {
+                console.log("jskhfksjdf");
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/get-patient-active-details',
+                    params: {id: $scope.drId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.todays_data = response.data.todays_data;
+                    $scope.todays_app = response.data.todays_appointments;
+                    $scope.todays_usersData = response.data.todays_usersData;
+                    $scope.todays_products = response.data.todays_products;
+                    $scope.todays_time = response.data.todays_time;
+                    $scope.todays_end_time = response.data.todays_end_time;
+                    $scope.todays_note = response.data.todays_note;
+                    $scope.todays_medicine = response.data.todays_medicine;
+                    $scope.week_data = response.data.week_data;
+                    $scope.week_app = response.data.week_appointments;
+                    $scope.week_usersData = response.data.week_usersData;
+                    $scope.week_products = response.data.week_products;
+                    $scope.week_time = response.data.week_time;
+                    $scope.week_end_time = response.data.week_end_time;
+                    $scope.week_note = response.data.week_note;
+                    $scope.week_medicine = response.data.week_medicine;
+                    $scope.all_data = response.data.all_data;
+                    $scope.all_app = response.data.all_appointments;
+                    $scope.all_usersData = response.data.all_usersData;
+                    $scope.all_products = response.data.all_products;
+                    $scope.all_time = response.data.all_time;
+                    $scope.all_end_time = response.data.all_end_time;
+                    $scope.all_note = response.data.all_note;
+                    $scope.all_medicine = response.data.all_medicine;
+                    $scope.timeLimit = response.data.timelimit.cancellation_time;
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, function errorCallback(e) {
+                   $scope.$broadcast('scroll.refreshComplete');
+                })
+
+            };
             $http({
                 method: 'GET',
                 url: domain + 'appointment/get-patient-past-details',
