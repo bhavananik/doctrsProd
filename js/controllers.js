@@ -7714,7 +7714,7 @@ angular.module('your_app_name.controllers', [])
                 console.log("jskhfksjdf");
                 $http({
                     method: 'GET',
-                    url: domain + 'appointment/get-patient-active-details',
+                    url: domain + 'appointment/get-patient-past-details',
                     params: {id: $scope.drId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
