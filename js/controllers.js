@@ -4091,7 +4091,7 @@ angular.module('your_app_name.controllers', [])
 //                $scope.recId = '';
 //            }
             $scope.recId = '';
-            console.log("Measure = " + $rootScope.measurement + "Obj = " + $rootScope.objId + "Dia = " + $rootScope.diaId);
+            $rootScope.recordId = '';
             if ($rootScope.diaId) {
                 //$ionicModal.hide();
             }
@@ -4422,6 +4422,7 @@ angular.module('your_app_name.controllers', [])
                             store({'recId': response.records.id});
                             jQuery("[name='recId']").val($scope.recId);
                             $scope.recId = response.records.id;
+                            $rootScope.recordId = response.records.id;
                             $scope.getCnDetails();
                             //alert("Consultation Note added successfully!");
                         } else if (response.err != '') {
@@ -4445,10 +4446,10 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
                         $scope.recId = response.records.id;
-                        $rootScope.recCId = $scope.recId;
+                        $rootScope.recordId = $scope.recId;
                         jQuery('.cnoteid').val(response.records.id);
                         //$scope.saveMeasurements();
-                        $rootScope.$emit("SavePatient", {});
+                        //$rootScope.$emit("SavePatient", {});
 //                        $rootScope.$emit("SaveObjservation", (response.records.id));
 //                        $rootScope.$emit("SaveTestResult", (response.records.id));
 //                        $rootScope.$emit("SaveDigno", (response.records.id));
@@ -4456,6 +4457,7 @@ angular.module('your_app_name.controllers', [])
                             historyRoot: true
                         });
                         alert("Consultation Note added successfully!");
+                        unset(['appId', 'recId', 'chatId', 'backurl']);
                         if ($scope.from == 'app.appointment-list')
                             $state.go('app.appointment-list', {}, {reload: true});
                         else if ($scope.from == 'app.past-appointment-list')
@@ -4632,6 +4634,7 @@ angular.module('your_app_name.controllers', [])
             /* end*/
             $scope.getCnDetails = function () {
                 if (get('recId')) {
+                    $rootScope.recordId = get('recId');
                     $ionicLoading.show({template: 'Loading..'});
                     $http({
                         method: 'GET',
@@ -4647,6 +4650,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.cases = response.data.cases;
                         $scope.preRec = response.data.recordData;
                         $scope.preRecData = response.data.recordDetails;
+                        $rootScope.recordId = response.data.recordData.id;                        
                         if ($scope.preRecData.length > 0) {
                             angular.forEach($scope.preRecData, function (val, key) {
                                 console.log(val.value);
@@ -4671,7 +4675,7 @@ angular.module('your_app_name.controllers', [])
                                     $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
                                 }
                                 if (val.fields.field == 'Consultation Date') {
-                                    $scope.conDate = $filter('date')(new Date(val.value), 'MM-dd-yyyy');
+                                    $scope.conDate = val.value //$filter('date')(new Date(val.value), 'dd-MM-yyyy');
                                 }
                                 if (val.fields.field == 'Consultation Time') {
                                     $scope.curTimeo = $filter('date')(new Date(val.value), 'hh:mm a');
@@ -5616,7 +5620,7 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.hide();
                 if (response.data.recdata != '') {
                     $rootScope.diaId = response.data.recdata.record_id;
-                    $rootScope.diaText.value = response.data.recdata.value;
+                    $scope.diaText.value = response.data.recdata.value;
                     $rootScope.diaTextValue = response.data.recdata.value;
                 }
             }, function errorCallback(e) {
@@ -5683,7 +5687,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            //$scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Investigations';
             $scope.invStatus = 'To be Conducted';
             $scope.curTime = new Date();
@@ -5691,7 +5695,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -5774,6 +5778,39 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
+            $rootScope.$on("GetInvDetails", function () {
+                $scope.GetInvDetails();
+            });
+            $scope.GetInvDetails = function () {
+                $ionicLoading.show({template: 'Loading...'});
+                $scope.patientId = get('patientId');
+                $scope.appId = get('appId');
+                $scope.userId = get('id');
+                $scope.doctorId = get('doctorId');
+                //$scope.recId = get('recId');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $rootScope.investigation = response.data.prevRec;
+                    $rootScope.invData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $rootScope.inv.unshift(val.id);
+                        $rootScope.allInv.unshift(val.id);
+                    });
+                    $ionicLoading.hide();
+                    console.log("incvese " + $rootScope.investigation);
+                }, function errorCallback(response) {
+                    //console.log(response);
+                });
+            };
             $scope.saveInvest = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addInvForm")[0]);
@@ -5786,6 +5823,7 @@ angular.module('your_app_name.controllers', [])
                         $rootScope.inv.unshift(response.records.id);
                         $rootScope.allInv.unshift(response.records.id);
                         jQuery("#addInvForm")[0].reset();
+                        $scope.GetInvDetails();
                         $scope.submitmodal();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -5851,7 +5889,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            //$scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5859,7 +5897,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
             }).then(function successCallback(response) {
                 $scope.records = response.data.record;
                 $scope.fields = response.data.fields;
@@ -5959,13 +5997,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.appId = get('appId');
                 $scope.userId = get('id');
                 $scope.doctorId = get('doctorId');
-                $scope.recId = get('recId');
+                //$scope.recId = get('recId');
                 $scope.repeatFreq = [];
                 $scope.recId = window.localStorage.getItem('recId');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.medi, recId: $scope.recId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.medi, recId: get('recId')}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -6049,14 +6087,14 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            //$scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
             }).then(function successCallback(response) {
                 //console.log(response);
                 $scope.records = response.data.record;
@@ -6137,6 +6175,38 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
+            $rootScope.$on("GetProcDetails", function () {
+                $scope.GetProcDetails();
+            });
+            $scope.GetProcDetails = function () {
+                $ionicLoading.show({template: 'Loading...'});
+                $scope.patientId = get('patientId');
+                $scope.appId = get('appId');
+                $scope.userId = get('id');
+                $scope.doctorId = get('doctorId');
+                //$scope.recId = get('recId');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $rootScope.procedure = response.data.prevRec;
+                    $rootScope.proData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $rootScope.proc.push(val.id);
+                        $rootScope.allProc.push(val.id);
+                    });
+                    $ionicLoading.hide();
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
             $scope.saveProcedure = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addProcedureForm")[0]);
@@ -6148,6 +6218,7 @@ angular.module('your_app_name.controllers', [])
                         $rootScope.proc.unshift(response.records.id);
                         $rootScope.allProc.unshift(response.records.id);
                         jQuery("#addProcedureForm")[0].reset();
+                        $scope.GetProcDetails();
                         $scope.submitmodal();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -6193,7 +6264,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            //$scope.recId = window.localStorage.getItem('recId');
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.endtime = '';
@@ -6304,14 +6375,14 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.getLifeDetails = function () {
-                $scope.recId = window.localStorage.getItem('recId');
+                //$scope.recId = window.localStorage.getItem('recId');
                 $scope.repeatFreq = [];
                 $scope.repeatNo = [];
                 $ionicLoading.show({template: 'Loading..'});
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.life, recId: $scope.recId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -6504,11 +6575,11 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.getRefDetails = function () {
                 $ionicLoading.show({template: 'Loading..'});
-                $scope.recId = window.localStorage.getItem('recId');
+                //$scope.recId = window.localStorage.getItem('recId');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -6539,6 +6610,7 @@ angular.module('your_app_name.controllers', [])
                         $rootScope.refer.unshift(response.records.id);
                         $rootScope.allRef.unshift(response.records.id);
                         jQuery("#addReferralForm")[0].reset();
+                        $scope.getRefDetails();
                         $scope.submitmodal();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -6592,12 +6664,12 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             $scope.nodays = [];
             $scope.editdiet = false;
-            $scope.recId = window.localStorage.getItem('recId');
+            //$scope.recId = window.localStorage.getItem('recId');
             //console.log('diet ctrl');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
             }).then(function successCallback(response) {
                 //console.log(response);
                 $scope.records = response.data.record;
@@ -6713,11 +6785,11 @@ angular.module('your_app_name.controllers', [])
                 $scope.appId = get('appId');
                 $scope.userId = get('id');
                 $scope.doctorId = get('doctorId');
-                $scope.recId = get('recId');
+                //$scope.recId = get('recId');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: get('recId')}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -11884,9 +11956,6 @@ angular.module('your_app_name.controllers', [])
             $scope.invData = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
-            $rootScope.$on("GetInvDetails", function () {
-                $scope.getInvDetails();
-            });
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -11905,6 +11974,9 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.hide();
             }, function errorCallback(response) {
                 //console.log(response);
+            });
+            $rootScope.$on("GetInvDetails", function () {
+                $scope.getInvDetails();
             });
             $scope.getInvDetails = function () {
                 $ionicLoading.show({template: 'Loading...'});
