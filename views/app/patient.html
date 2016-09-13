@@ -24,13 +24,16 @@
             </div>
         </div>
 
-        <div class="maintab row">
+        <div class="maintab" style="margin:0;">
+        <div style="margin:10px;">
             <select class="cselectn" ng-model="ptab" ng-change="changemaincate(ptab)">
                 <option value="pbackground" selected>Background</option>
                 <option value="precords" >Records</option>
                 <option value="pconsults" >Consults</option>
 <!--                <option value="pchats" >Chats</option>-->
             </select>
+            </div>
+        
         </div>
         <div class="clr"></div><div class="clr"></div>
         <div class="sldebxcontent" ng-show="pnotebackground">
