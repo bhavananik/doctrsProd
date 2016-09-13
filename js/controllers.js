@@ -7790,31 +7790,37 @@ angular.module('your_app_name.controllers', [])
                     params: {id: $scope.drId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                    $scope.todays_data = response.data.todays_data;
-                    $scope.todays_app = response.data.todays_appointments;
-                    $scope.todays_usersData = response.data.todays_usersData;
-                    $scope.todays_products = response.data.todays_products;
-                    $scope.todays_time = response.data.todays_time;
-                    $scope.todays_end_time = response.data.todays_end_time;
-                    $scope.todays_note = response.data.todays_note;
-                    $scope.todays_medicine = response.data.todays_medicine;
-                    $scope.week_data = response.data.week_data;
-                    $scope.week_app = response.data.week_appointments;
-                    $scope.week_usersData = response.data.week_usersData;
-                    $scope.week_products = response.data.week_products;
-                    $scope.week_time = response.data.week_time;
-                    $scope.week_end_time = response.data.week_end_time;
-                    $scope.week_note = response.data.week_note;
-                    $scope.week_medicine = response.data.week_medicine;
-                    $scope.all_data = response.data.all_data;
-                    $scope.all_app = response.data.all_appointments;
-                    $scope.all_usersData = response.data.all_usersData;
-                    $scope.all_products = response.data.all_products;
-                    $scope.all_time = response.data.all_time;
-                    $scope.all_end_time = response.data.all_end_time;
-                    $scope.all_note = response.data.all_note;
-                    $scope.all_medicine = response.data.all_medicine;
-                    $scope.timeLimit = response.data.timelimit.cancellation_time;
+                   //past section
+                $scope.todays_app_past = response.data.todays_appointments_past;
+                $scope.todays_usersData_past = response.data.todays_usersData_past;
+                $scope.todays_products_past = response.data.todays_products_past;
+                $scope.todays_time_past = response.data.todays_time_past;
+                $scope.todays_end_time_past = response.data.todays_end_time_past;
+                $scope.todays_note_past = response.data.todays_note_past;
+                $scope.todays_medicine_past = response.data.todays_medicine_past;
+                $scope.todays_past_data = response.data.todays_past_data;
+                // end past section //
+
+                //past section 
+                $scope.week_app_past = response.data.week_appointments_past;
+                $scope.week_usersData_past = response.data.week_usersData_past;
+                $scope.week_products_past = response.data.week_products_past;
+                $scope.week_time_past = response.data.week_time_past;
+                $scope.week_end_time_past = response.data.week_end_time_past;
+                $scope.week_note_past = response.data.week_note_past;
+                $scope.week_medicine_past = response.data.week_medicine_past;
+                $scope.week_past_data = response.data.week_past_data;
+                //end past section
+
+                //past section //
+                $scope.all_app_past = response.data.all_appointments_past;
+                $scope.all_usersData_past = response.data.all_usersData_past;
+                $scope.all_products_past = response.data.all_products_past;
+                $scope.all_time_past = response.data.all_time_past;
+                $scope.all_end_time_past = response.data.all_end_time_past;
+                $scope.all_note_past = response.data.all_note_past;
+                $scope.all_medicine_past = response.data.all_medicine_past;
+                $scope.all_past_data = response.data.all_past_data;;
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
