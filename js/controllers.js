@@ -4449,12 +4449,6 @@ angular.module('your_app_name.controllers', [])
                         $scope.recId = response.records.id;
                         $rootScope.recordId = $scope.recId;
                         jQuery('.cnoteid').val(response.records.id);
-                        //$scope.saveMeasurements();
-                        //$rootScope.$emit("SavePatient", {});
-//                        $rootScope.$emit("SaveObjservation", (response.records.id));
-//                        $rootScope.$emit("SaveTestResult", (response.records.id));
-//                        $rootScope.$emit("SaveDigno", (response.records.id));
-
                         $ionicHistory.nextViewOptions({
                             historyRoot: true
                         });
@@ -4878,7 +4872,7 @@ angular.module('your_app_name.controllers', [])
                     //console.log(path + "=====" + name);
                     angular.forEach($scope.prevRecordDetails, function (val, key) {
                         if (val.fields.field == 'Attachments') {
-                            console.log(val.attachments);
+                            //console.log(val.attachments);
                             $scope.cnAttachments = val.attachments;
                             $scope.modal.show();
                         }
