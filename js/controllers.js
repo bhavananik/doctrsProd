@@ -4106,6 +4106,7 @@ angular.module('your_app_name.controllers', [])
             $scope.prescription = 'No';
             $scope.measure = '';
             $scope.measurement = {};
+            $rootScope.mid = '';
             $rootScope.diaId = '';
             $rootScope.fdiaText = {value: ''};
             $rootScope.diaTextValue = '';
@@ -4480,6 +4481,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveMeasurements = function () {
+                $ionicLoading.show({template: 'Saving...'});
                 jQuery('#patientId').val($scope.patientId);
                 jQuery("[name='cnId']").val($scope.recId);
                 console.log("From Consultation Note - Measurements");
@@ -4490,6 +4492,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response.err == '') {
                         //alert("Measurements saved successfully!");
+                        $rootScope.mid = response.records;
                         $rootScope.measure = 'yes';
                         $rootScope.measurement = response.records;
                         //$state.go('app.notetype');
@@ -4650,7 +4653,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.cases = response.data.cases;
                         $scope.preRec = response.data.recordData;
                         $scope.preRecData = response.data.recordDetails;
-                        $rootScope.recordId = response.data.recordData.id;                        
+                        $rootScope.recordId = response.data.recordData.id;
                         if ($scope.preRecData.length > 0) {
                             angular.forEach($scope.preRecData, function (val, key) {
                                 console.log(val.value);
@@ -7790,37 +7793,38 @@ angular.module('your_app_name.controllers', [])
                     params: {id: $scope.drId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                   //past section
-                $scope.todays_app_past = response.data.todays_appointments_past;
-                $scope.todays_usersData_past = response.data.todays_usersData_past;
-                $scope.todays_products_past = response.data.todays_products_past;
-                $scope.todays_time_past = response.data.todays_time_past;
-                $scope.todays_end_time_past = response.data.todays_end_time_past;
-                $scope.todays_note_past = response.data.todays_note_past;
-                $scope.todays_medicine_past = response.data.todays_medicine_past;
-                $scope.todays_past_data = response.data.todays_past_data;
-                // end past section //
+                    //past section
+                    $scope.todays_app_past = response.data.todays_appointments_past;
+                    $scope.todays_usersData_past = response.data.todays_usersData_past;
+                    $scope.todays_products_past = response.data.todays_products_past;
+                    $scope.todays_time_past = response.data.todays_time_past;
+                    $scope.todays_end_time_past = response.data.todays_end_time_past;
+                    $scope.todays_note_past = response.data.todays_note_past;
+                    $scope.todays_medicine_past = response.data.todays_medicine_past;
+                    $scope.todays_past_data = response.data.todays_past_data;
+                    // end past section //
 
-                //past section 
-                $scope.week_app_past = response.data.week_appointments_past;
-                $scope.week_usersData_past = response.data.week_usersData_past;
-                $scope.week_products_past = response.data.week_products_past;
-                $scope.week_time_past = response.data.week_time_past;
-                $scope.week_end_time_past = response.data.week_end_time_past;
-                $scope.week_note_past = response.data.week_note_past;
-                $scope.week_medicine_past = response.data.week_medicine_past;
-                $scope.week_past_data = response.data.week_past_data;
-                //end past section
+                    //past section 
+                    $scope.week_app_past = response.data.week_appointments_past;
+                    $scope.week_usersData_past = response.data.week_usersData_past;
+                    $scope.week_products_past = response.data.week_products_past;
+                    $scope.week_time_past = response.data.week_time_past;
+                    $scope.week_end_time_past = response.data.week_end_time_past;
+                    $scope.week_note_past = response.data.week_note_past;
+                    $scope.week_medicine_past = response.data.week_medicine_past;
+                    $scope.week_past_data = response.data.week_past_data;
+                    //end past section
 
-                //past section //
-                $scope.all_app_past = response.data.all_appointments_past;
-                $scope.all_usersData_past = response.data.all_usersData_past;
-                $scope.all_products_past = response.data.all_products_past;
-                $scope.all_time_past = response.data.all_time_past;
-                $scope.all_end_time_past = response.data.all_end_time_past;
-                $scope.all_note_past = response.data.all_note_past;
-                $scope.all_medicine_past = response.data.all_medicine_past;
-                $scope.all_past_data = response.data.all_past_data;;
+                    //past section //
+                    $scope.all_app_past = response.data.all_appointments_past;
+                    $scope.all_usersData_past = response.data.all_usersData_past;
+                    $scope.all_products_past = response.data.all_products_past;
+                    $scope.all_time_past = response.data.all_time_past;
+                    $scope.all_end_time_past = response.data.all_end_time_past;
+                    $scope.all_note_past = response.data.all_note_past;
+                    $scope.all_medicine_past = response.data.all_medicine_past;
+                    $scope.all_past_data = response.data.all_past_data;
+                    ;
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
