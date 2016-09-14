@@ -4203,7 +4203,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId, doctorId: $scope.doctorId}
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId, doctorId: get('id')}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -4454,11 +4454,12 @@ angular.module('your_app_name.controllers', [])
 //                        $rootScope.$emit("SaveObjservation", (response.records.id));
 //                        $rootScope.$emit("SaveTestResult", (response.records.id));
 //                        $rootScope.$emit("SaveDigno", (response.records.id));
+
                         $ionicHistory.nextViewOptions({
                             historyRoot: true
                         });
                         alert("Consultation Note added successfully!");
-                        unset(['appId', 'recId', 'chatId', 'backurl']);
+                        unset(['appId', 'recId', 'chatId', 'backurl', 'patient_id', 'doctor_id']);
                         if ($scope.from == 'app.appointment-list')
                             $state.go('app.appointment-list', {}, {reload: true});
                         else if ($scope.from == 'app.past-appointment-list')
@@ -4499,7 +4500,7 @@ angular.module('your_app_name.controllers', [])
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
-                var image_holder = $("#image-holder");
+                var image_holder = $("#addRecordForm #image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
                     jQuery('#coninprec').removeClass('hide');
@@ -5245,7 +5246,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-measure-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: get('recId')}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.mrecords = response.data.record;
@@ -5261,6 +5262,37 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $rootScope.$on("GetMeasurements", function () {
+                $scope.getMeasurements();
+            });
+            $scope.getMeasurements = function () {
+                console.log('Get note measures');
+                $ionicLoading.show({template: 'Loading...'});
+                $scope.patientId = get('patientId');
+                $scope.appId = get('appId');
+                $scope.userId = get('id');
+                $scope.doctorId = get('doctorId');
+                $scope.recId = get('precId');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-measure-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: '', recId: get('recId')}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.mrecords = response.data.record;
+                    $scope.mfields = response.data.fields;
+                    $scope.editRec = response.data.editRec;
+                    $scope.abtMeasure = response.data.abt;
+                    $scope.measurement = response.data.measurement;
+                    $scope.mid = response.data.mid;
+                    if (response.data.mid.length > 0) {
+                        $scope.measure = 'yes';
+                    }
+                    $ionicLoading.hide();
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
             $scope.saveMeasurements = function () {
                 $ionicLoading.show({template: 'Saving...'});
                 jQuery('#patientId').val($scope.patientId);
@@ -5272,9 +5304,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (response.err == '') {
-                        $scope.mid = response.records;
-                        $scope.measure = 'yes';
-                        $scope.measurement = response.records;
+                        $scope.getMeasurements();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
@@ -5296,37 +5326,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
-            $rootScope.$on("GetMeasurements", function () {
-                $scope.getMeasurements();
-            });
-            $scope.getMeasurements = function () {
-                console.log('Get note measures');
-                $ionicLoading.show({template: 'Loading...'});
-                $scope.patientId = get('patientId');
-                $scope.appId = get('appId');
-                $scope.userId = get('id');
-                $scope.doctorId = get('doctorId');
-                $scope.recId = get('precId');
-                $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-measure-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: '', recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    //console.log(response);
-                    $scope.mrecords = response.data.record;
-                    $scope.mfields = response.data.fields;
-                    $scope.editRec = response.data.editRec;
-                    $scope.abt = response.data.abt;
-                    $scope.measurement = response.data.measurement;
-                    $scope.mid = response.data.mid;
-                    if (response.data.mid.length > 0) {
-                        $scope.measure = 'yes';
-                    }
-                    $ionicLoading.hide();
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            };
+
             $rootScope.$on("GetJoinMeasurements", function () {
                 $scope.GetJoinMeasurements();
             });
