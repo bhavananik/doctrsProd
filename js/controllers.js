@@ -4097,16 +4097,15 @@ angular.module('your_app_name.controllers', [])
             }
             $scope.backUrl = get('backurl');
             $scope.appId = $stateParams.appId;
+            $scope.patientId = '';
+            $scope.doctorId = get('id');
             $scope.patientName = [{'name': 'No patient selected'}];
-            window.localStorage.setItem('appId', $scope.appId);
+            store({'appId': $scope.appId});
             $scope.mode = '';
             $scope.catId = '';
             $scope.caseId = '';
-            $scope.userId = window.localStorage.getItem('id');
+            $scope.userId = get('id');
             $scope.prescription = 'No';
-            $scope.measure = '';
-            $scope.measurement = {};
-            $rootScope.mid = '';
             $rootScope.diaId = '';
             $rootScope.fdiaText = {value: ''};
             $rootScope.diaTextValue = '';
@@ -4160,7 +4159,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.app = response.data.app;
                     $scope.prevRecord = response.data.record;
                     $scope.prevRecordDetails = response.data.recordDetails;
-
                     $scope.prevRecord = response.data.record;
                     if (response.data.recordDetails.length > 0) {
                         store({'recId': response.data.record.id});
@@ -4199,6 +4197,8 @@ angular.module('your_app_name.controllers', [])
                     $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
                     $scope.curTime = new Date();
                     store({'patientId': $scope.patientId, 'doctorId': $scope.doctorId});
+                    $rootScope.$emit("GetPatientDetails", ($scope.patientId));
+                    $rootScope.$emit("GetFamilyDetails", ($scope.patientId));
                     console.log($scope.conDate);
                     $http({
                         method: 'GET',
@@ -4480,28 +4480,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
-            $scope.saveMeasurements = function () {
-                $ionicLoading.show({template: 'Saving...'});
-                jQuery('#patientId').val($scope.patientId);
-                jQuery("[name='cnId']").val($scope.recId);
-                console.log("From Consultation Note - Measurements");
-                var data = new FormData(jQuery("#addMeasureForm")[0]);
-                console.log(data);
-                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
-                    console.log(response);
-                    $ionicLoading.hide();
-                    if (response.err == '') {
-                        //alert("Measurements saved successfully!");
-                        $rootScope.mid = response.records;
-                        $rootScope.measure = 'yes';
-                        $rootScope.measurement = response.records;
-                        //$state.go('app.notetype');
-                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
-                    } else if (response.err != '') {
-                        alert('Please fill mandatory fields');
-                    }
-                });
-            };
+
             $scope.getCase = function (type) {
                 console.log(type);
                 if ($scope.patientId == '') {
@@ -5255,7 +5234,8 @@ angular.module('your_app_name.controllers', [])
 
         .controller('MeasurementCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
-            $scope.mid = $stateParams.mid;
+            $scope.mid = '';
+            $scope.measure = '';
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -5281,6 +5261,25 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $scope.saveMeasurements = function () {
+                $ionicLoading.show({template: 'Saving...'});
+                jQuery('#patientId').val($scope.patientId);
+                jQuery("[name='cnId']").val($scope.recId);
+                console.log("From Consultation Note - Measurements");
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                console.log(data);
+                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.err == '') {
+                        $scope.mid = response.records;
+                        $scope.measure = 'yes';
+                        $scope.measurement = response.records;
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
             $scope.saveDMeasurements = function () {
                 $ionicLoading.show({template: 'Saving...'});
                 var data = new FormData(jQuery("#addMeasureForm")[0]);
