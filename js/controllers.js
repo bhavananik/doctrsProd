@@ -7717,7 +7717,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     if (mode == 1) {
-                        alert("Video cancel");
+                        //alert("Video cancel");
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/dr-cancel-app',
@@ -8815,7 +8815,7 @@ angular.module('your_app_name.controllers', [])
             window.localStorage.setItem('chatId', $scope.chatId);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
-            var apiKey = '45121182';
+            //var apiKey = '45121182';
             //console.log($scope.chatId);
             $http({
                 method: 'GET',
@@ -8830,6 +8830,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+                $scope.apiKey = response.data.apiKey;
 
                 var phone1 = $scope.user.phone;
                 var phone2 = $scope.otherUser.phone;
@@ -8844,7 +8845,7 @@ angular.module('your_app_name.controllers', [])
 
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
-                $scope.apiKey = apiKey;
+              
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
@@ -8968,7 +8969,7 @@ angular.module('your_app_name.controllers', [])
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
-            var apiKey = '45121182';
+            //var apiKey = '45121182';
             //console.log($scope.chatId);
             $http({
                 method: 'GET',
@@ -8981,7 +8982,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.chatMsgs = response.data.chatMsgs;
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
-                $scope.apiKey = apiKey;
+               $scope.apiKey = response.data.apiKey;
                 //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
