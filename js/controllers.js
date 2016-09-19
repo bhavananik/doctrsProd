@@ -11044,8 +11044,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.recId = response.records.id;
                         $rootScope.recCId = $scope.recId;
                         jQuery('.cnoteid').val(response.records.id);
-                        $scope.saveMeasurements();
-                        $scope.savePatientHistory();
+//                        $scope.saveMeasurements();
+//                        $scope.savePatientHistory();
 //                $scope.saveTestresult();
 //                $scope.saveDiagnosis();
 //                $scope.saveObj();
