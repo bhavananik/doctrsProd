@@ -2034,29 +2034,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.pchats = false;
                 } else if (cvalue == 'precords') {
                     console.log('Cat change');
-                    $scope.subpage('createdbyu');
-                    //$scope.subpage('sharedwithyou');
-                    $scope.pnotebackground = false;
-                    $scope.precordsView = true;
-                    $scope.pconsultsView = false;
-                    $scope.pchatsView = false;
-                } else if (cvalue == 'pconsults') {
-                    $scope.pnotebackground = false;
-                    $scope.precordsView = false;
-                    $scope.pconsultsView = true;
-                    $scope.pchatsView = false;
-                } else if (cvalue == 'pchats') {
-                    $scope.pnotebackground = false;
-                    $scope.precordsView = false;
-                    $scope.pconsultsView = false;
-                    $scope.pchatsView = true;
-                }
-            };
-            $scope.subpage = function (ab) {
-                $ionicLoading.show({template: 'Loading..'});
-                if (ab == 'createdbyu') {
-                    $scope.crtedbyu = true;
-                    $scope.sharddbyu = false;
                     $scope.recLimit = [];
                     $scope.recsLimit = [];
                     $http({
@@ -2106,6 +2083,7 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.repeatNo);
                         console.log($scope.repeatFreq);
                         $ionicLoading.hide();
+                        $scope.subpage('createdbyu');
                         $ionicLoading.show({template: 'Loading..'});
                         $http({
                             method: 'GET',
@@ -2157,8 +2135,31 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
+                    
+                    //$scope.subpage('sharedwithyou');
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = true;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pconsults') {
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = true;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pchats') {
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = true;
                 }
-                if (ab == 'sharedwithyou') {
+            };
+            $scope.subpage = function (ab) {
+                console.log(ab+ " tab name");
+                if (ab == 'createdbyu') {
+                    $scope.crtedbyu = true;
+                    $scope.sharddbyu = false;
+                    
+                }else if (ab == 'sharedwithyou') {
                     $scope.sharddbyu = true;
                     $scope.crtedbyu = false;
                 }

@@ -1,6 +1,6 @@
 <div>
     <my-tabs class="ctabs">
-        <my-tab title="Created by you ({{records.length}})"> 
+        <my-tab title="Created by you ({{records.length}})" ng-click="subpage('createdbyu')"> 
             <!--  ng-click="subpage('createdbyu')"  -->
             <div>
                 <p ng-if="records.length == 0">No record(s) found.</p>
@@ -154,7 +154,7 @@
                 </div>
             </div>
         </my-tab>
-        <my-tab title="Shared with you ({{sharedRecords.length}})"> 
+        <my-tab title="Shared with you ({{sharedRecords.length}})" ng-click="subpage('sharedwithyou')"> 
             <!-- ng-click="subpage('sharedwithyou')" -->
             <div>
                 <p ng-if="records.length == 0">No record(s) found.</p>
