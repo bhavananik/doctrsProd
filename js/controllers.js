@@ -2029,9 +2029,9 @@ angular.module('your_app_name.controllers', [])
                 console.log(cvalue);
                 if (cvalue == 'pbackground') {
                     $scope.pnotebackground = true;
-                    $scope.precords = false;
-                    $scope.pconsults = false;
-                    $scope.pchats = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = false;
                 } else if (cvalue == 'precords') {
                     console.log('Cat change');
                     $scope.recLimit = [];
