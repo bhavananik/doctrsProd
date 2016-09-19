@@ -28,7 +28,13 @@ angular.module('your_app_name', [
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
-            $ionicPlatform.on("deviceready", function () {
+           document.addEventListener("offline", onOffline, false);
+            function onOffline() {
+                // Handle the offline event
+                alert('Sorry, no Internet connectivity detected. Please reconnect and try again.');
+            }
+                    
+                    $ionicPlatform.on("deviceready", function () {
 
 //                var notificationOpenedCallback = function (jsonData) {
 //                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
