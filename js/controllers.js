@@ -2104,7 +2104,8 @@ angular.module('your_app_name.controllers', [])
                             $scope.sharedoctrs = response.data.shareDoctrs;
                             $scope.sharedietRec = response.data.dietRec;
                             $scope.sharedietDetails = response.data.dietDetails;
-                            angular.forEach($scope.records, function (value, key) {
+                            angular.forEach($scope.sharedRecords, function (value, key) {
+                                console.log(key+"");
                                 if (value.category == 30) {
                                     $scope.recsLimit[key] = 2;
                                 } else {
@@ -2127,6 +2128,7 @@ angular.module('your_app_name.controllers', [])
                                     }
                                 });
                             });
+                            console.log($scope.recsLimit);
                             $ionicLoading.hide();
                             //console.log($scope.createdbyShared);
                         }, function errorCallback(e) {
@@ -2558,7 +2560,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.filemodal = modal;
                 $scope.showRecAttach = function (apath, aname) {
-                    alert(apath + "======" + aname);
+                    //alert(apath + "======" + aname);
                     $scope.attachValue = domain + 'public' + apath + aname;
                     //$('#recattach').modal('show');
                     $scope.filemodal.show();
@@ -2602,14 +2604,37 @@ angular.module('your_app_name.controllers', [])
             };
             /* New Added */
             $scope.intext = 'more';
-            $scope.infomore = function (r) {
-                console.log("=== " + r + " ===");
+            $scope.infomore = function (r, type) {
+                console.log(r + " more =>  type => " + type);
                 jQuery('#' + r).toggleClass('active');
                 if (jQuery('#' + r).hasClass('active')) {
-                    $scope.intext = 'less'
+                    if (type == 'inv')
+                        jQuery('#' + r + 't').html('Less');
+                    else if (type == 'medi')
+                        jQuery('#' + r + 'm').html('Less');
+                    else if (type == 'proc')
+                        jQuery('#' + r + 'p').html('Less');
+                    else if (type == 'life')
+                        jQuery('#' + r + 'l').html('Less');
+                    else if (type == 'ref')
+                        jQuery('#' + r + 'r').html('Less');
+                    else if (type == 'diet')
+                        jQuery('#' + r + 'd').html('Less');
                 } else {
-                    $scope.intext = 'more';
+                    if (type == 'inv')
+                        jQuery('#' + r + 't').html('More');
+                    else if (type == 'medi')
+                        jQuery('#' + r + 'm').html('More');
+                    else if (type == 'proc')
+                        jQuery('#' + r + 'p').html('More');
+                    else if (type == 'life')
+                        jQuery('#' + r + 'l').html('More');
+                    else if (type == 'ref')
+                        jQuery('#' + r + 'r').html('More');
+                    else if (type == 'diet')
+                        jQuery('#' + r + 'd').html('More');
                 }
+
             };
             $scope.getEvaluationDetails = function () {
                 $ionicLoading.show({template: 'Loading..'});

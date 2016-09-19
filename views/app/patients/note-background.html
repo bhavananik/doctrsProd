@@ -95,6 +95,7 @@
         </my-tab>
         <my-tab title="Family">
             <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                <p ng-if="recorddata.length == 0">No record(s) found.</p>
                 <div class="clr"></div>
                 <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
                     <div class="card-content p0">
