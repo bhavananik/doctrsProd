@@ -4653,6 +4653,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.cases = response.data.cases;
                         $scope.preRec = response.data.recordData;
                         $scope.preRecData = response.data.recordDetails;
+                        $scope.prevRecordDetails = response.data.recordDetails;
                         $rootScope.recordId = response.data.recordData.id;
                         if ($scope.preRecData.length > 0) {
                             angular.forEach($scope.preRecData, function (val, key) {
