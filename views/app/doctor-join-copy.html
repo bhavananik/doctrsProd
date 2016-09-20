@@ -103,6 +103,120 @@
     </div>
 </ion-view>
 
+<div class="slideupdiv" id="inventory-slide">
+    <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+    <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
+    <div class="ctitlebar">Inventory</div>
+    <div class="slideupcontent">
+
+        <div class="" ng-show="invsearcha">
+            <ion-list>
+                <div class="row">
+                    <div class="col"> <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="0">By Medicine</ion-radio></div>
+                    <div class="col">  <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="1">By Location</ion-radio></div>
+                </div>
+            </ion-list>
+            <div class="hide"  id="textlocation">
+                <label class="item item-input"  >
+                    <input type="text" placeholder="Medicine"  ng-model="medicinename">
+                </label>
+                <div class="txt-center">
+                    <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
+                    <button  ng-click="golink('#/inventory-search/' + medicinename)"  class="button button-positive mt15">Search</button>
+                </div>
+            </div>
+            <div class="hide" id="selectlocation">
+                <label class="item item-input item-select" >
+                    <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc">
+                        <option value="">Select Health Centre</option>
+                        <option ng-repeat="hc in healthCenter"  value="{{hc.id}}" >{{hc.district}}</option>
+
+
+                    </select>
+                </label>
+                <div class="txt-center">
+                    <button  ng-click="golink('#/inventory-location/' + healthcenterloc)"  class="button button-positive mt15">Search</button> 
+                    <!--ui-sref="app.search-location"-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="custpopup-container" id="selectnote">
+    <div class="custpopup">
+        <div class="ncbtn" onclick="close_popup('selectnote')"><i class="ion-close"></i></div>
+        <h3 class="heading3">Background</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dpatient')"><span class="icon ion-plus-circled"></span> Patient</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dfamily-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
+            </div>
+        </div>
+        <h3 class="heading3">Evaluation</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement/mid')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dtestresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
+            </div>
+        </div>  
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dobservation/objid')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+            </div>
+        </div>
+        <h3 class="heading3">Diagnosis</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small"  ng-click="golink('#/dsnomed')"><span class="icon ion-plus-circled"></span> SNOMED</div> 
+            </div>
+
+            <div class="col">
+                <div class="Cstmbutn button-small"  ng-click="golink('#/dicd')"><span class="icon ion-plus-circled"></span> ICD</div> 
+            </div>
+        </div>       
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dtext/diaid')"> <span class="icon ion-plus-circled"></span> Text</div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="custpopup-container" id="selectappointment">
+    <div class="custpopup">
+        <div class="ncbtn" onclick="close_popup('selectappointment')"><i class="ion-close"></i></div>
+        <h3 class="heading3">Treatment Plan</h3>  
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dinvestigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dmedication')"><span class="icon ion-plus-circled"></span> Medication</div> 
+            </div>
+        </div>
+        <div class="row cbtn3 ">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dprocedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
+
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/ddietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+            </div>
+        </div>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dlifestyle')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dreferral')"><span class="icon ion-plus-circled"></span> Referral</div> 
+            </div>
+        </div>
+    </div>
+</div>
 <script id="filesview.html" type="text/ng-template">
     <div class="modal">
     <header class="bar bar-header bar-positive">

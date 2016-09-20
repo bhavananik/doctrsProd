@@ -11683,6 +11683,7 @@ angular.module('your_app_name.controllers', [])
                     $rootScope.$emit("GetProcJoinDetails", {});
                     $rootScope.$emit("GetLifeJoinDetails", {});
                     $rootScope.$emit("GetRefJoinDetails", {});
+                    $rootScope.$emit("GetDietJoinPlan", {});
                     $scope.notetcase = false;
                     $scope.notebackground = false;
                     $scope.notetnote = false;
