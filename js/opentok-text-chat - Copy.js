@@ -55,22 +55,18 @@
     ChatUI = function (ChatMessage) {
         var uiLayout = [
             '<div class="chatscroll"><div class="ot-bubbles">',
-            '</div></div> ',
+            '</div></div>',
+            '<div class="ot-input">',
             '  <div>',
             '    <p class="ot-error-zone" hidden>Error sending the message!</p>',
             '    <p class="ot-new-messages" hidden>\u25BE&nbsp;New messages</p>',
-            '</div>'
-
-        ].join('\n');
-        var buttonLayout = [
-            '<div class="ot-input w100p">',
-            '    <textarea placeholder="Send a message&hellip;" class="ot-composer Chatfield">' + '</textarea>',
-            '    ',
+            '<textarea placeholder="Send a message&hellip;" class="ot-composer">' + '</textarea>',
+            '    <div class="ot-bottom-line">',
             '      <p class="ot-character-counter"><span></span> characters left</p>',
-            '      <button class="ot-send-button ot-bottom-line">Send&nbsp;\u27E9</button>',
-            '  ',
+            '      <button class="ot-send-button">Send&nbsp;\u27E9</button>',
+            '    </div>',
+            '  </div>',
             '</div>'
-
         ].join('\n');
         var bubbleLayout = [
             '<div>',
@@ -111,14 +107,13 @@
          * informing about a malfunction while sending the message.
          */
         function ChatUI(options) {
-            //var sbtn = document.createElement('section');
             options = options || {};
             this.senderId = options.senderId || ('' + Math.random()).substr(2);
             this.senderAlias = options.senderAlias || 'me';
             this.maxTextLength = options.maxTextLength || 1000;
             this.groupDelay = options.groupDelay || 2 * 60 * 1000;
             // 2 min
-            this.timeout = options.timeout || 1000;
+            this.timeout = options.timeout || 5000;
             this._watchScrollAtTheBottom = this._watchScrollAtTheBottom.bind(this);
             this._messages = [];
             this._setupTemplates();
@@ -135,14 +130,11 @@
             _setupUI: function (parent) {
                 parent = document.querySelector(parent) || document.body;
                 var chatView = document.createElement('section');
-                var sbtn = document.createElement('section');
                 chatView.innerHTML = uiLayout;
-                sbtn.innerHTML = buttonLayout;
                 chatView.classList.add('ot-textchat');
-                sbtn.classList.add('ot-input');
-                var sendButton = sbtn.querySelector('.ot-send-button');
-                var composer = sbtn.querySelector('.ot-composer');
-                var charCounter = sbtn.querySelector('.ot-character-counter > span');
+                var sendButton = chatView.querySelector('.ot-send-button');
+                var composer = chatView.querySelector('.ot-composer');
+                var charCounter = chatView.querySelector('.ot-character-counter > span');
                 var errorZone = chatView.querySelector('.ot-error-zone');
                 var newMessages = chatView.querySelector('.ot-new-messages');
                 this._composer = composer;
@@ -158,8 +150,6 @@
                 this._composer.onkeydown = this._controlComposerInput.bind(this);
                 this._newMessages.onclick = this._goToNewMessages.bind(this);
                 parent.appendChild(chatView);
-                ///parent.appendChild(sbtn);
-                $("#sent-btn").append(sbtn);
             },
             _watchScrollAtTheBottom: function () {
                 if (this._isAtBottom()) {
@@ -245,13 +235,12 @@
                 var shouldGroup = this._shouldGroup(message);
                 var shouldScroll = this._shouldScroll();
                 this[shouldGroup ? '_groupBubble' : '_addNewBubble'](message);
-                console.log(shouldScroll);
                 if (shouldScroll) {
                     this._scrollToBottom();
                 } else {
                     this._showNewMessageAlert();
                 }
-                this._messages.push(message);          
+                this._messages.push(message);
             },
             /**
              * Transform the message before displaying it in the conversation. The
@@ -283,11 +272,10 @@
              * @method disableSending
              */
             disableSending: function () {
-                this._sendButton.disabled = false;
-                this._composer.disabled = false;
+                //  this._sendButton.disabled = true;
+                // this._composer.disabled = true;
             },
             _shouldGroup: function (message) {
-              
                 if (this._lastMessage && this._lastMessage.senderId === message.senderId) {
                     var reference = this._lastMessage.dateTime.getTime();
                     var newDate = message.dateTime.getTime();
@@ -300,15 +288,13 @@
             },
             _isAtBottom: function () {
                 var bubbles = this._bubbles;
-                console.log(bubbles+" bubblesss");
                 return bubbles.scrollHeight - bubbles.scrollTop === bubbles.clientHeight;
             },
             _scrollToBottom: function () {
-                console.log(this._bubbles.scrollHeight+" fffff");
                 this._bubbles.scrollTop = this._bubbles.scrollHeight;
             },
             _groupBubble: function (message) {
-                var contents = this.renderMessage(message.text, true);              
+                var contents = this.renderMessage(message.text, true);
                 this._lastBubble.appendChild(this._getBubbleContent(contents));
                 this._lastTimestamp.textContent = this.humanizeDate(message.dateTime);
             },
@@ -331,7 +317,6 @@
                 return div;
             },
             _getBubble: function (message) {
-                var chatView = document.createElement('section');
                 if (decrypt(message.text) != '') {
                     var bubble = this._bubbleTemplate.cloneNode(true);
                     var wrapper = bubble.querySelector('div');
@@ -406,9 +391,11 @@
             send: function (text, callback) {
                 var signal = this._getMessageSignal(text);
                 this._session.signal(signal, callback);
+                console.log(text);
                 if (decrypt(text) != '') {
                     ajaxCall("GET", domain + "doctorsapp/add-chat-msg", {chat_id: window.localStorage.getItem('chatId'), from: window.localStorage.getItem('id'), to: window.localStorage.getItem('Toid'), msg: text},
                             function (response) {
+                                //console.log(response);
                             });
                 }
             },
@@ -526,6 +513,7 @@
             // After a message is received, simply create a new `ChatMessage` instance
             // and add it to the UI.
             onMessageReceived: function (contents, from) {
+                console.log(from);
                 var message = new ChatMessage(from.connectionId, from.data, contents);
                 this._chatBox.addMessage(message);
             },
@@ -553,7 +541,6 @@
                     return output;
                 }
             }
-            //}
         };
         return ChatWidget;
     }(Chat, ChatUI, ChatMessage);

@@ -8925,13 +8925,23 @@ angular.module('your_app_name.controllers', [])
                 })
             };
             $timeout(function () {
+                console.log("append");
                 if ($scope.chatMsgs.length > 0) {
                     $scope.appendprevious();
-                    $scope.movebottom();
+                    $ionicScrollDelegate.scrollBottom([true]);
+               
                 } else {
-                    $('#chat').html('<p> No previous messages</p>');
+                    $ionicScrollDelegate.scrollBottom([true]);
+                    //$('#chat').html('<p> No </p>');
                 }
-            }, 1000);
+            }, 2000);
+            $scope.msgSend = function(){
+                $timeout(function () {
+                 $ionicScrollDelegate.scrollBottom([true]);
+             },500);
+            };
+            
+            
             $scope.submitchatVideo = function () {
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
