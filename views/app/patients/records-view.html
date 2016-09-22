@@ -75,7 +75,7 @@
                                         </div>
                                     </span>
                                     <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
-                                        <span ng-if="detail.fields.field_type == 8 && detail.value != ''"><span ng-if="detail.field_id=='consultation-date'" >{{detail.value}}</span><span ng-if="detail.field_id!='consultation-date'" >{{detail.value|dateFormat4}}</span></span>
+                                        <span ng-if="detail.fields.field_type == 8 && detail.value != ''"><span ng-if="detail.field_id == 'consultation-date'" >{{detail.value}}</span><span ng-if="detail.field_id != 'consultation-date'" >{{detail.value|dateFormat4}}</span></span>
                                         <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
                                     </span>
@@ -109,7 +109,7 @@
                                         </span>
                                         <span ng-if="rec.category == 30">
                                             <span ng-if="detail.fields.field == 'Frequency'" >
-                                                <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                                <span ng-if="detail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                                 <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                             </span>
                                         </span>
@@ -129,7 +129,7 @@
                                             </span>
                                         </span>
                                         <span ng-if="detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.name != 'mode' && detail.fields.field != 'No of days' && detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
-                                            <span ng-if="detail.fields.field_type == 8 && detail.value != ''"><span ng-if="detail.field_id=='consultation-date'" >{{detail.value}}</span><span ng-if="detail.field_id!='consultation-date'" >{{detail.value|dateFormat4}}</span></span>
+                                            <span ng-if="detail.fields.field_type == 8 && detail.value != ''"><span ng-if="detail.field_id == 'consultation-date'" >{{detail.value}}</span><span ng-if="detail.field_id != 'consultation-date'" >{{detail.value|dateFormat4}}</span></span>
                                             <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
                                             <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
                                         </span>
@@ -214,7 +214,7 @@
                                     </span>
                                     <span ng-if="srec.category == 30">
                                         <span ng-if="sdetail.fields.field == 'Frequency'" >
-                                            <span ng-if="sdetail.value == 'Repeat'">{{sdetail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="sdetail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                             <span ng-if="sdetail.value != 'Repeat'">{{sdetail.value}}</span>
                                         </span>
                                     </span>
@@ -225,7 +225,7 @@
                                         </div>
                                     </span>
                                     <span ng-if="sdetail.fields.name != 'no-of-frequency-1' && sdetail.fields.name != 'no-of-frequency' && sdetail.fields.name != 'no-of-times' && sdetail.fields.field != 'Frequency' && sdetail.fields.field != 'No of days' && sdetail.fields.field != 'Attachments' && sdetail.fields.field != 'Patient' && sdetail.fields.field != 'Case Id' && sdetail.fields.field != 'Doctor' && sdetail.fields.field != 'Prescribed By' && sdetail.fields.field != 'Measured By' && sdetail.fields.field != 'Referred By' && sdetail.fields.field != 'Performed By' && sdetail.fields.field != 'Consultant' && sdetail.fields.field != 'Related Problem'">
-                                        <span ng-if="sdetail.fields.field_type == 8 && sdetail.value != ''"><span ng-if="sdetail.field_id=='consultation-date'" >{{sdetail.value}}</span><span ng-if="sdetail.field_id!='consultation-date'" >{{sdetail.value|dateFormat4}}</span></span>
+                                        <span ng-if="sdetail.fields.field_type == 8 && sdetail.value != ''"><span ng-if="sdetail.field_id == 'consultation-date'" >{{sdetail.value}}</span><span ng-if="sdetail.field_id != 'consultation-date'" >{{sdetail.value|dateFormat4}}</span></span>
                                         <span ng-if="sdetail.fields.field_type == 12 && sdetail.value != ''">{{sdetail.value|time1}}</span>
                                         <span ng-if="sdetail.fields.field_type != 8 && sdetail.fields.field_type != 12 && sdetail.value != ''">{{sdetail.value}}</span>
                                     </span>
@@ -256,7 +256,7 @@
                                         </span>
                                         <span ng-if="srec.category == 30">
                                             <span ng-if="sdetail.fields.field == 'Frequency'" >
-                                                <span ng-if="sdetail.value == 'Repeat'">{{sdetail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                                <span ng-if="sdetail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                                 <span ng-if="sdetail.value != 'Repeat'">{{sdetail.value}}</span>
                                             </span>
                                         </span>
@@ -267,7 +267,7 @@
                                             </div>
                                         </span>
                                         <span ng-if="sdetail.fields.name != 'no-of-frequency-1' && sdetail.fields.name != 'no-of-frequency' && sdetail.fields.name != 'no-of-times' && sdetail.fields.field != 'Frequency' && sdetail.fields.field != 'No of days' && sdetail.fields.field != 'Attachments' && sdetail.fields.field != 'Patient' && sdetail.fields.field != 'Case Id' && sdetail.fields.field != 'Doctor' && sdetail.fields.field != 'Prescribed By' && sdetail.fields.field != 'Measured By' && sdetail.fields.field != 'Referred By' && sdetail.fields.field != 'Performed By' && sdetail.fields.field != 'Consultant' && sdetail.fields.field != 'Related Problem'">
-                                            <span ng-if="sdetail.fields.field_type == 8 && sdetail.value != ''"><span ng-if="sdetail.field_id=='consultation-date'" >{{sdetail.value}}</span><span ng-if="sdetail.field_id!='consultation-date'" >{{sdetail.value|dateFormat4}}</span></span>
+                                            <span ng-if="sdetail.fields.field_type == 8 && sdetail.value != ''"><span ng-if="sdetail.field_id == 'consultation-date'" >{{sdetail.value}}</span><span ng-if="sdetail.field_id != 'consultation-date'" >{{sdetail.value|dateFormat4}}</span></span>
                                             <span ng-if="sdetail.fields.field_type == 12 && sdetail.value != ''">{{sdetail.value|time1}}</span>
                                             <span ng-if="sdetail.fields.field_type != 8 && sdetail.fields.field_type != 12 && sdetail.value != ''">{{sdetail.value}}</span>
                                         </span>

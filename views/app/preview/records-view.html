@@ -63,11 +63,11 @@
                                         {{cases[$parent.$parent.$index].value}}
                                     </span>
                                     <span ng-if="rec.category == 30">
-                                        <span ng-if="detail.fields.field == 'Frequency'" >
-                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
-                                            <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
+                                            <span ng-if="detail.fields.field == 'Frequency'" >
+                                                <span ng-if="detail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                                <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
+                                            </span>
                                         </span>
-                                    </span>
                                     <span ng-if="detail.fields.field == 'No of days'">
                                         <div class="dietdays" >
                                             <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in createdietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="dayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
@@ -109,7 +109,7 @@
                                         </span>
                                         <span ng-if="rec.category == 30">
                                             <span ng-if="detail.fields.field == 'Frequency'" >
-                                                <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                                <span ng-if="detail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                                 <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
                                             </span>
                                         </span>
@@ -212,9 +212,9 @@
                                     <span ng-if="sdetail.fields.field == 'Case Id'" >
                                         {{sharedcases[$parent.$parent.$parent.$index].value}}
                                     </span>
-                                    <span ng-if="srec.category == 30">
+                                   <span ng-if="srec.category == 30">
                                         <span ng-if="sdetail.fields.field == 'Frequency'" >
-                                            <span ng-if="sdetail.value == 'Repeat'">{{sdetail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="sdetail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
                                             <span ng-if="sdetail.value != 'Repeat'">{{sdetail.value}}</span>
                                         </span>
                                     </span>
@@ -255,11 +255,11 @@
                                             {{sharedcases[$parent.$parent.$parent.$index].value}}
                                         </span>
                                         <span ng-if="srec.category == 30">
-                                            <span ng-if="sdetail.fields.field == 'Frequency'" >
-                                                <span ng-if="sdetail.value == 'Repeat'">{{sdetail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
-                                                <span ng-if="sdetail.value != 'Repeat'">{{sdetail.value}}</span>
-                                            </span>
+                                        <span ng-if="sdetail.fields.field == 'Frequency'" >
+                                            <span ng-if="sdetail.value == 'Repeat'">Once every {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="sdetail.value != 'Repeat'">{{sdetail.value}}</span>
                                         </span>
+                                    </span>
                                         <span ng-if="sdetail.fields.field == 'No of days'">
                                             <div class="dietdays" >
                                                 <div class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in createdietRec[$parent.$parent.$parent.$index]" ng-controller="mealDetailsCtrl" ng-click="dayDetailsDisp($parent.$parent.$parent.$parent.$index, $index)">
