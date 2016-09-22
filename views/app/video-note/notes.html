@@ -113,7 +113,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button class="button button-block button-positive mtop20" ng-click="saveMeasurements()"> Save</button>
+                            <button class="button button-block button-positive mtop20" ng-click="savejoinMeasurements()"> Save</button>
                             <div class="foterspacing"></div>
                         </div>
                         <div class="col">
@@ -198,25 +198,25 @@
                                     <div ng-if="field.field_types.value == 'number'">
                                         <div class="row" ng-repeat="ab in abtMeasure" ng-if="ab.field_id == field.name">
                                             <div class="col">{{field.field}}</div>
-                                            <div class="col">: {{ab.value}}</div>
+                                            <div class="col">: {{ab.value==''? 'NA': ab.value}}</div>
                                         </div>
                                     </div>
                                     <div ng-if="field.field_types.value == 'select'">
                                         <div class="row" ng-repeat="ab in abtMeasure" ng-if="ab.field_id == field.name">
                                             <div class="col">{{field.field}}</div>
-                                            <div class="col">: {{ab.value}}</div>
+                                            <div class="col">: {{ab.value==''? 'NA': ab.value}}</div>
                                         </div>
                                     </div>
                                     <div ng-if="field.field_types.value == 'text'">
                                         <div class="row"  ng-repeat="ab in abtMeasure" ng-if="ab.field_id == field.name">
                                             <div class="col">{{field.field}}</div>
-                                            <div class="col">: {{ab.value}}</div>
+                                            <div class="col">: {{ab.value==''? 'NA': ab.value}}</div>
                                         </div>
                                     </div>
                                     <div ng-if="field.field_types.value == 'date'">
                                         <div class="row" ng-repeat="ab in abtMeasure" ng-if="ab.field_id == field.name">
                                             <div class="col">{{field.field}}</div>
-                                            <div class="col">: {{ab.value}}</div>
+                                            <div class="col">: {{ab.value==''? 'NA': ab.value}}</div>
                                         </div>
                                     </div>
                                 </div>                                

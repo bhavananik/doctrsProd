@@ -2105,7 +2105,7 @@ angular.module('your_app_name.controllers', [])
                             $scope.sharedietRec = response.data.dietRec;
                             $scope.sharedietDetails = response.data.dietDetails;
                             angular.forEach($scope.sharedRecords, function (value, key) {
-                                console.log(key+"");
+                                console.log(key + "");
                                 if (value.category == 30) {
                                     $scope.recsLimit[key] = 2;
                                 } else {
@@ -2137,7 +2137,7 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
-                    
+
                     //$scope.subpage('sharedwithyou');
                     $scope.pnotebackground = false;
                     $scope.precordsView = true;
@@ -2156,12 +2156,12 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.subpage = function (ab) {
-                console.log(ab+ " tab name");
+                console.log(ab + " tab name");
                 if (ab == 'createdbyu') {
                     $scope.crtedbyu = true;
                     $scope.sharddbyu = false;
-                    
-                }else if (ab == 'sharedwithyou') {
+
+                } else if (ab == 'sharedwithyou') {
                     $scope.sharddbyu = true;
                     $scope.crtedbyu = false;
                 }
@@ -8872,7 +8872,7 @@ angular.module('your_app_name.controllers', [])
 
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
-              
+
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
@@ -8929,19 +8929,19 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.chatMsgs.length > 0) {
                     $scope.appendprevious();
                     $ionicScrollDelegate.scrollBottom([true]);
-               
+
                 } else {
                     $ionicScrollDelegate.scrollBottom([true]);
                     //$('#chat').html('<p> No </p>');
                 }
             }, 2000);
-            $scope.msgSend = function(){
+            $scope.msgSend = function () {
                 $timeout(function () {
-                 $ionicScrollDelegate.scrollBottom([true]);
-             },500);
+                    $ionicScrollDelegate.scrollBottom([true]);
+                }, 500);
             };
-            
-            
+
+
             $scope.submitchatVideo = function () {
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
@@ -9019,7 +9019,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.chatMsgs = response.data.chatMsgs;
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
-               $scope.apiKey = response.data.apiKey;
+                $scope.apiKey = response.data.apiKey;
                 //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
@@ -11626,6 +11626,7 @@ angular.module('your_app_name.controllers', [])
 
             $scope.changeTrtment = function (tvalue) {
                 if (tvalue == 'investigation') {
+                    $rootScope.$emit('GetInvJoinDetails', {});
                     $scope.Tprocedure = false;
                     $scope.Treferral = false;
                     $scope.Ttask = false;
@@ -11633,6 +11634,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.tinvestigation = true;
                     $scope.Tdietplan = false;
                 } else if (tvalue == 'medication') {
+                    $rootScope.$emit("GetMediJoinDetails", {});
                     $scope.Tprocedure = false;
                     $scope.Treferral = false;
                     $scope.Ttask = false;
@@ -11640,6 +11642,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.tinvestigation = false;
                     $scope.Tdietplan = false;
                 } else if (tvalue == 'task') {
+                    $rootScope.$emit("GetLifeJoinDetails", {});
                     $scope.Tprocedure = false;
                     $scope.Treferral = false;
                     $scope.Ttask = true;
@@ -11647,6 +11650,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.tinvestigation = false;
                     $scope.Tdietplan = false;
                 } else if (tvalue == 'referral') {
+                    $rootScope.$emit("GetRefJoinDetails", {});
                     $scope.Tprocedure = false;
                     $scope.Treferral = true;
                     $scope.Ttask = false;
@@ -11654,6 +11658,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.tinvestigation = false;
                     $scope.Tdietplan = false;
                 } else if (tvalue == 'procedure') {
+                    $rootScope.$emit("GetProcJoinDetails", {});
                     $scope.Tprocedure = true;
                     $scope.Treferral = false;
                     $scope.Ttask = false;
@@ -11661,6 +11666,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.tinvestigation = false;
                     $scope.Tdietplan = false;
                 } else if (tvalue == 'dietplan') {
+                    $rootScope.$emit("GetDietJoinPlan", {});
                     $scope.Tprocedure = false;
                     $scope.Treferral = false;
                     $scope.Ttask = false;
@@ -11676,6 +11682,8 @@ angular.module('your_app_name.controllers', [])
                     $scope.notetnote = false;
                     $scope.notetreatment = false;
                 } else if (cvalue == 'ntbackground') {
+                    $rootScope.$emit('GetPatientDetails', {});
+                    $rootScope.$emit("GetFamilyDetails", {});
                     $scope.notetcase = false;
                     $scope.notebackground = true;
                     $scope.notetnote = false;

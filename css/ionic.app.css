@@ -9452,7 +9452,11 @@ h1.post-title{font-size:26px;}
 }
 .ditem-content{margin: 10px 15px;}
 .Ditemselect{padding: 10px ! important;}
-.viewattachfile{padding-top:50px;}
+.viewattachfile{ padding-top: 50px;
+    overflow: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%; }
 .viewattachfile img{max-width:100%;}
 
 .fieldvalue{ padding:10px; float: left; width:100%;     text-indent: 6px;}
@@ -9567,7 +9571,7 @@ input[type="date"]:before{
 .infomore-div{display:none;}
 .infomore-div.active{display: block;     display: block;
                      background: #f8f8f8;}
-.theroot{position: absolute; height: 70vh; width:100%; overflow-y: scroll;}
+.theroot{position: absolute; height: 70vh; width:100%; }
 .sldebxcontent{}
 .csradio .item-radio .item-content{    padding: 11px 49px 11px 16px;}
 .csradio  .item.item-radio{   border-color: #efefef;}
