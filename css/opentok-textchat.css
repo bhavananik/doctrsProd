@@ -1,10 +1,29 @@
 @import url(https://fonts.googleapis.com/css?family=Muli:400,300);
 
+.Chatfield{width: 75%;
+    float: left;
+    height: 42px;
+    padding: 13px;}
+    .ot-character-counter{display: none;}
+    .ot-bottom-line{      float: left;
+    width: 25%;
+    background: #387ef5;
+    /* width: 100%; */
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    border: 0;
+    color: #fff;}
+
+
+    #sent-btn{padding:0; background: #387ef5;}
+    #sent-btn .ot-input{width: 100%;}
+
 .ot-textchat {
   font-family: 'Muli', sans-serif;
   font-size: 1em;
   color: #333;
-  position: absolute;
+ /* position: absolute;*/
   top: 0;
   bottom: 0;
   left: 0;
@@ -25,12 +44,12 @@
 
 
 .ot-textchat .chatscroll{
-	
+	   padding-bottom: 0px;
 	  position: relative;
   margin-bottom: 1em;
-  height: calc(100% - 1em);
+/*  height: calc(100% - 1em);
   overflow-y: scroll;
-    overflow-x: hidden; 
+    overflow-x: hidden; */
 }
 
 
@@ -138,7 +157,8 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-input {
-  position: fixed;
+  /*position: fixed;*/
+      margin-bottom: 50px;
   margin: 0 0;
  bottom: 0; 
   width:100%; box-shadow: -1px 0 2px rgba(0,0,0,0.2);
@@ -147,7 +167,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 .ot-textchat .ot-composer {
   padding: 0.8em;
   height: 2.7em;
-  width: 75%;
+  width: 72%;
   border: none;
   background-color: #fff;
   box-sizing: border-box;
@@ -196,7 +216,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-send-button {
-  background: #387EF5;
+  background: #ec7935;
   color: #fff;
   border: none;
   outline: none;
@@ -207,7 +227,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-send-button:hover {
-  background-color: #387EF5;
+  background-color: #ec7935;
 }
 
 .ot-textchat .ot-send-button[disabled] {
@@ -222,5 +242,3 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 
 .ot-textchat .ot-message-timestamp, .ot-bubble .ot-message-content{color:#fff;}
 .ot-bubble.mine   .ot-message-timestamp, .ot-bubble.mine .ot-message-content{color:#000 !important;}
-
-
