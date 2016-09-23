@@ -5715,6 +5715,7 @@ angular.module('your_app_name.controllers', [])
             $scope.invStatus = 'To be Conducted';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -5916,6 +5917,7 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.drName = get('fname');
             $scope.repeatFreq = [];
             $http({
                 method: 'GET',
@@ -6114,6 +6116,7 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -6297,6 +6300,7 @@ angular.module('your_app_name.controllers', [])
             $scope.assignfor = 'Self';
             $scope.status = 'Active';
             $scope.catId = 'Task'; // Bhavana
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -6465,6 +6469,7 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -6687,6 +6692,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             $scope.nodays = [];
             $scope.editdiet = false;
+            $scope.drName = get('fname');
             //$scope.recId = window.localStorage.getItem('recId');
             //console.log('diet ctrl');
             $http({
@@ -9313,6 +9319,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.recId = get('recId');
+            $scope.drName = get('fname');
             console.log('Inv ' + $scope.recId);
             $http({
                 method: 'GET',
@@ -9673,7 +9680,8 @@ angular.module('your_app_name.controllers', [])
             $scope.assignfor = 'Self';
             $scope.status = 'Active';
             $scope.catId = 'Task'; // Bhavana
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = get('recId');
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -9885,7 +9893,8 @@ angular.module('your_app_name.controllers', [])
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.proStatus = 'Conducted';
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = get('recId');
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -10051,7 +10060,8 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = get
+            $scope.drName = get('fname');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -10270,7 +10280,8 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             $scope.nodays = [];
             $scope.editdiet = false;
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = get('recId');
+            $scope.drName = get('fname');
             //console.log('diet ctrl');
             $http({
                 method: 'GET',

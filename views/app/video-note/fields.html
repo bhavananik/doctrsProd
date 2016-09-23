@@ -15,7 +15,7 @@
             <div class="item item-divider mt15" ng-if="field.is_mandatory != 1" >{{field.field}} </div>
             <label class="item item-input">
                 <input type="hidden" placeholder="{{field.field}}" value="0"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
-                <input type="text" placeholder="{{field.field}}" id="prescribe" ng-model="prescribe" ng-change="shCheck(prescribe)" name="new-{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                <input type="text" placeholder="{{field.field}}" id="prescribe" ng-model="drName" value="{{drName}}" ng-change="shCheck(prescribe)" name="new-{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
             </label>
         </div>
     </div>
