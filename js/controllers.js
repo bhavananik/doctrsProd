@@ -9044,6 +9044,18 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = response.data.apiKey;
+                //keygeneration
+                var phone1 = $scope.user.phone;
+                var phone2 = $scope.otherUser.phone;
+                var passphrase = "9773001965";
+                if (phone1 > phone2) {
+                    passphrase = phone1 + phone2;
+                } else {
+                    passphrase = phone2 + phone1;
+                }
+                privateKey = cryptico.generateRSAKey(passphrase, 1024);
+                publicKey = cryptico.publicKeyString(privateKey);
+                console.log(response.data.chatMsgs);
                 //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
@@ -9062,18 +9074,13 @@ angular.module('your_app_name.controllers', [])
             //Previous Chat 
 
             $scope.appendprevious = function () {
-                //  console.log('connectioning.....');
                 $ionicLoading.show({template: 'Retrieving messages...'});
-                //  console.log('connectioning.....1');
                 $(function () {
                     jQuery('.ot-textchat .ot-input').remove();
-                    // console.log('connectioning.....12');
                     angular.forEach($scope.chatMsgs, function (value, key) {
-                        //console.log(value);
-                        // console.log('connectioning.....123');
+                        value.message = decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
-                            // console.log('connectioning.....1234');
                             $ionicLoading.hide();
                             $('#pchat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
