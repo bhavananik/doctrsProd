@@ -383,13 +383,13 @@
                                             <div class="listreq" ng-if="field.is_mandatory == 1">
                                                 <div class="item item-divider mt15">{{field.field}} *</div>
                                                 <label class="item item-input">
-                                                    <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                                                    <input type="date" id="diet-start" ng-change="getEnd()" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
                                                 </label>											
                                             </div>
                                             <div class="" ng-if="field.is_mandatory != 1">
                                                 <div class="item item-divider mt15">{{field.field}}</div>
                                                 <label class="item item-input">
-                                                    <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                                                    <input type="date" id="diet-start" ng-change="getEnd()" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
                                                 </label>                            
                                             </div>
                                         </div>
