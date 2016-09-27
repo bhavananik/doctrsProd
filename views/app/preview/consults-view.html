@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="post-actions p0"><!--post-actions-->
                                     <div class="row cardbtn-small p0">
-                                        <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
+                                        <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.status==5?'Cancelled by patient':app.status==6?'Cancelled by doctor':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
                                     </div>
                                 </div>
                             </div>

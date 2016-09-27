@@ -7909,21 +7909,30 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            $scope.itemsDisplayall = 2
+            $scope.DisplayToday = 2;
+            $scope.Itemtoday = function (done) {
+                if ($scope.todays_past_data.length > $scope.DisplayToday) {
+                    console.log('Todays');
+                    $scope.DisplayToday += 2; // load number of more items
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            };
+            $scope.itemsDisplayall = 2;
             $scope.addMoreItemall = function (done) {
                 if ($scope.all_app_past.length > $scope.itemsDisplayall) {
                     $scope.itemsDisplayall += 2; // load number of more items
                 }
-                $scope.$broadcast('scroll.infiniteScrollComplete')
-            }
-            $scope.Displaythisweek = 2
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            };
+            $scope.Displaythisweek = 2;
             $scope.Itemthisweek = function (done) {
                 if ($scope.week_past_data.length > $scope.Displaythisweek) {
                     console.log('week');
                     $scope.Displaythisweek += 2; // load number of more items
                 }
-                $scope.$broadcast('scroll.infiniteScrollComplete')
-            }
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            };
+
             /* search plugin */
             var filterBarInstance;
             $scope.showFilterBar = function () {

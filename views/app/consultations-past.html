@@ -21,8 +21,8 @@
                 <ion-tab title="Today({{todays_past_data.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in todays_past_data| filter:filterall" ><!---->
-                            <div  class="list card post-item" ng-repeat="prod_past in app.todays_product_past">
+                        <div class="posts-list"  ><!---->
+                            <div  class="list card post-item" ng-repeat="app in todays_past_data| filter:filterall | limitTo: DisplayToday" > <!---ng-repeat="prod_past in app.todays_product_past"--->
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
                                         <div class="item item-divider">
@@ -59,13 +59,13 @@
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==5?'Cancelled by patient':app.app.status==8?'Cancelled by doctor':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':'Cancelled'}}</div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
+                            <ion-infinite-scroll on-infinite="Itemtoday()" ng-if="todays_past_data.length" distance="1%">
+                            </ion-infinite-scroll>
                         </div>
                     </div>
                 </ion-tab>
@@ -74,7 +74,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_past_data.length==0? 'No appointments': ''}}</h4> 
                         <div class="posts-list"  > <!---->
-                            <div  class="list card post-item" ng-repeat="app in week_past_data| filter:filterall | limitTo:Displaythisweek">
+                            <div  class="list card post-item" ng-repeat="app in week_past_data| filter:filterall | limitTo: Displaythisweek">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content p0">
                                         <div class="item item-divider">
@@ -112,16 +112,13 @@
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==5?'Cancelled by patient':app.app.status==8?'Cancelled by doctor':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':'Cancelled'}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <ion-infinite-scroll on-infinite="Itemthisweek()" ng-if="week_past_data.length" distance="1%">
                             </ion-infinite-scroll>     
-
-
                         </div>
                     </div>
                 </ion-tab>
@@ -167,18 +164,13 @@
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==5?'Cancelled by patient':app.app.status==8?'Cancelled by doctor':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':'Cancelled'}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <ion-infinite-scroll on-infinite="addMoreItemall()" ng-if="all_past_data.length" distance="1%">
                             </ion-infinite-scroll>
-
-
-
-
                         </div>
                     </div>
                 </ion-tab>

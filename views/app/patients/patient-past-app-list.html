@@ -32,7 +32,7 @@
                 </div>
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">
-                        <div class="cardpast-bar {{app.status==3?'fgreen':'fred'}}"><i class="{{app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.status==3?'Consulted':app.status==4?'Cancelled':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
+                        <div class="cardpast-bar {{app.status==3?'fgreen':'fred'}}"><i class="{{app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.status==3?'Consulted':app.status==4?'Cancelled':app.status==5?'Cancelled by patient':app.status==8?'Cancelled by doctor':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
                     </div>
                 </div>
             </div>
