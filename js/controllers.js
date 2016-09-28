@@ -3771,7 +3771,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.modal = modal;
                     });
                     $scope.playVideo = function (archiveid) {
-                        $ionicLoading.show({template: 'Retriving Video...'});
+                        $ionicLoading.show({template: 'Preparing Video...'});
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/play-recent-video',
