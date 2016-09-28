@@ -3088,6 +3088,7 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'doctorsweb/get-order-details',
                 params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface, patientId: $scope.patientId}
             }).then(function successCallback(responseData) {
+                 $ionicLoading.hide();
                 console.log(responseData.data);
                 $scope.patient = responseData.data.patient;
                 $scope.payment = responseData.data.payment;
@@ -3103,7 +3104,7 @@ angular.module('your_app_name.controllers', [])
                     window.localStorage.setItem('IVstartSlot', $scope.IVstartSlot);
                     window.localStorage.setItem('IVendSlot', $scope.IVendSlot);
                 }
-                $ionicLoading.hide();
+               
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -3125,7 +3126,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsweb/book-appointment',
-                    params: {prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
+                    params: {interface:$scope.interface,prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
                 }).then(function successCallback(response) {
                     //console.log(response.data);
                     $ionicLoading.hide();
@@ -8767,7 +8768,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal = modal;
             });
             $scope.playVideo = function (archiveid) {
-                $ionicLoading.show({template: 'Retriving Video...'});
+                $ionicLoading.show({template: 'Preparing Video...'});
                 $http({
                     method: 'GET',
                     url: domain + 'contentlibrary/play-recent-video',
