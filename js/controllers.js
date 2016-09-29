@@ -8883,6 +8883,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
                 $scope.apiKey = response.data.apiKey;
+                 $scope.chatActive = response.data.chatActive;
 
                 var phone1 = $scope.user.phone;
                 var phone2 = $scope.otherUser.phone;
@@ -8986,17 +8987,7 @@ angular.module('your_app_name.controllers', [])
 
             $scope.getchatsharedata = function () {
                 $state.go('app.chat-video-share', {reload: true});
-//                $http({
-//                    method: 'GET',
-//                    url: domain + 'contentlibrary/get-video-chat-share-data',
-//                    params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
-//                }).then(function sucessCallback(response) {
-//                    console.log("sdfghjkl;"+response.data);
-//                    $scope.videoChatdata = response.data.chatvideodata;
-//                    $state.go('app.chat-video-share', {reload: true});
-//                }, function errorCallback(response) {
-//                    console.log(response.responseText);
-//                });
+
             }
 
             $scope.tabclick = function (taburl) {
@@ -9045,6 +9036,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = response.data.apiKey;
+                 $scope.chatActive = response.data.chatActive;
                 //keygeneration
                 var phone1 = $scope.user.phone;
                 var phone2 = $scope.otherUser.phone;
