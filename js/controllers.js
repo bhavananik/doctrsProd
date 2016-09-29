@@ -3453,6 +3453,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.tabclick = function (taburl) {
+                $ionicScrollDelegate.scrollTop();
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
                 jQuery('.headtab span').removeClass('active');
