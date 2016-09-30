@@ -8819,9 +8819,9 @@ angular.module('your_app_name.controllers', [])
                     if (response == '1') {
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
                         alert('Chat recording added successfully.');
-                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                        $state.go('app.save-chat-video', {'id': $scope.chatId}, {reload: true});
                     } else {
-                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                        $state.go('app.save-chat-video', {'id': $scope.chatId}, {reload: true});
                     }
                 });
             }
