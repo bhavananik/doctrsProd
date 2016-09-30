@@ -3368,7 +3368,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce, $ionicLoading) {
+        .controller('ViewContentCtrl', function ($scope,$state, $http, $stateParams, $ionicModal, $filter, $sce, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.contentId = $stateParams.id;
             $http({
@@ -3393,6 +3393,8 @@ angular.module('your_app_name.controllers', [])
                 }).then(function sucessCallback(response) {
                     $ionicLoading.hide();
                     console.log(response.data);
+                    alert('library deleted sucessfully');
+                     $state.go('app.content-library', {reload: true});
                   //  $scope.cval = response.data;
                 }, function errorCallback(e) {
                     console.log(e);
