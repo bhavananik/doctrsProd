@@ -1,7 +1,12 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
         <span>Library</span>
+        
     </ion-nav-title>
+     <ion-nav-buttons side="right"  >
+        <button ng-click="delete_cl(cval.id)"  class="button button-positive w100p brdradious0"> 
+            <strong>Delete</strong> </button>
+    </ion-nav-buttons>
     <ion-content class="bgwhite">
         <div class="posts-list" style="margin-bottom:100px;">
 

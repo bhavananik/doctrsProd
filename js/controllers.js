@@ -3088,7 +3088,7 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'doctorsweb/get-order-details',
                 params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface, patientId: $scope.patientId}
             }).then(function successCallback(responseData) {
-                 $ionicLoading.hide();
+                $ionicLoading.hide();
                 console.log(responseData.data);
                 $scope.patient = responseData.data.patient;
                 $scope.payment = responseData.data.payment;
@@ -3104,7 +3104,7 @@ angular.module('your_app_name.controllers', [])
                     window.localStorage.setItem('IVstartSlot', $scope.IVstartSlot);
                     window.localStorage.setItem('IVendSlot', $scope.IVendSlot);
                 }
-               
+
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -3126,7 +3126,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsweb/book-appointment',
-                    params: {interface:$scope.interface,prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
+                    params: {interface: $scope.interface, prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
                 }).then(function successCallback(response) {
                     //console.log(response.data);
                     $ionicLoading.hide();
@@ -3382,6 +3382,22 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.delete_cl = function (contentId) {
+                $scope.contentId = contentId;
+                console.log("sfha"+$scope.contentId);
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/delete-content-value',
+                    params: {conId: $scope.contentId}
+                }).then(function sucessCallback(response) {
+                    $ionicLoading.hide();
+                    console.log(response.data);
+                  //  $scope.cval = response.data;
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
@@ -8884,7 +8900,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
                 $scope.apiKey = response.data.apiKey;
-                 $scope.chatActive = response.data.chatActive;
+                $scope.chatActive = response.data.chatActive;
 
                 var phone1 = $scope.user.phone;
                 var phone2 = $scope.otherUser.phone;
@@ -9037,7 +9053,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = response.data.apiKey;
-                 $scope.chatActive = response.data.chatActive;
+                $scope.chatActive = response.data.chatActive;
                 //keygeneration
                 var phone1 = $scope.user.phone;
                 var phone2 = $scope.otherUser.phone;
