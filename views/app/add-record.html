@@ -5,11 +5,9 @@
         <span  ng-if="apkLanguage != 'english'">{{langtext.new[language]}} {{langtext.records[language]}}</span>
     </ion-nav-title>
     <ion-nav-buttons side="right"  >
-        <button type="submit" ng-if="apkLanguage == 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
-            <strong>Submit</strong> </button>
 
-        <button type="submit" ng-if="apkLanguage != 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
-            <strong>{{langtext.submit[language]}} </strong> </button>
+        <button type="submit"  ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
+            <strong>Submit </strong> </button>
     </ion-nav-buttons> 
 
 
@@ -185,7 +183,7 @@
                                         <div class="listreq" ng-if="field.is_mandatory == 1" style="position: relative;">
                                             <div class="item item-divider mt15">{{field.field}} *</div>
                                             <div class="filelabel">
-                                                <input type="file" ng-model="formFile" valid-file placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" required/>
+                                                <input type="file" ng-model="formFile" valid-file placeholder="{{field.field}}" ng-required="fileLen != 1" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}"/>
                                                 <label for="attachfile">Upload Files</label>
                                             </div>                                     
                                             <div class="holderattach" id="image-holder"></div>                           
@@ -203,7 +201,7 @@
                                         <div class="listreq" ng-if="field.is_mandatory == 1" style="position: relative;">
                                             <div class="item item-divider mt15">{{field.field}} </div>
                                             <div class="filelabel">
-                                                <input type="file" placeholder="{{field.field}}" multiple="" ng-model="formFile" valid-file reuired onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" />
+                                                <input type="file" placeholder="{{field.field}}" multiple="" ng-model="formFile" valid-file required onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" />
                                                 <label for="attachfile">Upload Files</label>
                                             </div>                                     
                                             <div class="holderattach" id="image-holder"></div>                           

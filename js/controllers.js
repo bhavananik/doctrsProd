@@ -660,10 +660,11 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
+                $scope.fileLen = element.files.length;
                 console.log('length = ' + element.files.length);
                 var image_holder = $("#image-holder");
                 image_holder.empty();
-                if (element.files.length > 0) {
+                if (element.files.length > 0 && $scope.category==8) {
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
@@ -697,6 +698,15 @@ angular.module('your_app_name.controllers', [])
                 console.log(startDate + " === " + noDays + " === " + enDate);
                 console.log($filter('date')(enDate, 'yyyy-MM-dd'));
                 $('#diet-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
+            };
+            $scope.getEndDate = function () {
+                //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
+                var noDays = $('#duration').val();
+                var startDate = $filter('date')(($('#medi-start').val()), 'yyyy-MM-dd');
+                var enDate = getDayAfter(startDate, noDays);
+                console.log(startDate + " === " + noDays + " === " + enDate);
+                console.log($filter('date')(enDate, 'yyyy-MM-dd'));
+                $('#medi-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
             };
             $ionicModal.fromTemplateUrl('mealdetails', {
                 scope: $scope
@@ -1762,7 +1772,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('UpdateDoctorSettingsCtrl', function ($scope,$sce, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('UpdateDoctorSettingsCtrl', function ($scope, $sce, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
@@ -1795,7 +1805,7 @@ angular.module('your_app_name.controllers', [])
                             $scope.dayid[k][key] = (value.dayid).split(',');
                         });
                     });
-                
+
                     console.log($scope.dayfrom);
                 }
                 $scope.instant_days = [{text: "Monday", value: '1'},
@@ -1893,7 +1903,7 @@ angular.module('your_app_name.controllers', [])
             $scope.submitVideoService = function () {
                 $ionicLoading.show({template: "Saving"});
                 var data = new FormData(jQuery("#servicevideo")[0]);
-                
+
                 $.ajax({
                     type: 'POST',
                     url: domain + "doctors/update-doctor-service",
@@ -1904,11 +1914,11 @@ angular.module('your_app_name.controllers', [])
                     success: function (response) {
                         console.log(response);
                         $scope.serviceID = $("#doctor_services_id").val();
-                       // $ionicLoading.hide();
+                        // $ionicLoading.hide();
                         $http({
                             method: 'GET',
                             url: domain + 'doctors/mail-video-service',
-                            params: {userId: window.localStorage.getItem('id'),serviceID:$scope.serviceID }
+                            params: {userId: window.localStorage.getItem('id'), serviceID: $scope.serviceID}
                         }).then(function successCallback(response) {
                             $ionicLoading.hide();
                             alert("Video service updated successfully!");
@@ -1917,7 +1927,7 @@ angular.module('your_app_name.controllers', [])
                             console.log(e);
                         });
 
-                       
+
                     },
                     error: function (e) {
                         console.log(e.responseText);
@@ -1957,19 +1967,19 @@ angular.module('your_app_name.controllers', [])
                         contentType: false,
                         processData: false,
                         success: function (response) {
-                           // $ionicLoading.hide();
+                            // $ionicLoading.hide();
                             $http({
-                            method: 'GET',
-                            url: domain + 'doctors/mail-clinic-service',
-                            params: {userId: window.localStorage.getItem('id'),serviceID:$scope.serviceID }
-                        }).then(function successCallback(response) {
-                            $ionicLoading.hide();
-                            alert("Clinic service updated successfully!");
-                            window.location.reload();
-                        }, function errorCallback(e) {
-                            console.log(e);
-                        });
-                            
+                                method: 'GET',
+                                url: domain + 'doctors/mail-clinic-service',
+                                params: {userId: window.localStorage.getItem('id'), serviceID: $scope.serviceID}
+                            }).then(function successCallback(response) {
+                                $ionicLoading.hide();
+                                alert("Clinic service updated successfully!");
+                                window.location.reload();
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
                         },
                         error: function (e) {
                             console.log(e.responseText);
@@ -6050,7 +6060,15 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#addMedicationForm #enddt').val('');
                 }
             };
-
+            $scope.getEndDate = function () {
+                //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
+                var noDays = $('#duration').val();
+                var startDate = $filter('date')(($('#medi-start').val()), 'yyyy-MM-dd');
+                var enDate = getDayAfter(startDate, noDays);
+                console.log(startDate + " === " + noDays + " === " + enDate);
+                console.log($filter('date')(enDate, 'yyyy-MM-dd'));
+                $('#medi-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
+            };
             $scope.check = function (val) {
                 console.log(val);
                 if (val) {
@@ -9574,7 +9592,7 @@ angular.module('your_app_name.controllers', [])
             });
 
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addOther(name, field, val, 'addMedicationForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -9615,6 +9633,16 @@ angular.module('your_app_name.controllers', [])
                     alert('End date should be greater than start date.');
                     jQuery('#addMedicationForm #enddt').val('');
                 }
+            };
+
+            $scope.getEndDate = function () {
+                //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
+                var noDays = $('#duration').val();
+                var startDate = $filter('date')(($('#medi-start').val()), 'yyyy-MM-dd');
+                var enDate = getDayAfter(startDate, noDays);
+                console.log(startDate + " === " + noDays + " === " + enDate);
+                console.log($filter('date')(enDate, 'yyyy-MM-dd'));
+                $('#medi-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
             };
 
             $scope.check = function (val) {
