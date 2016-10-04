@@ -11011,6 +11011,12 @@ angular.module('your_app_name.controllers', [])
                             if (val.fields.field == 'Attachments') {
                                 $scope.isAttachment = val.attachments.length;
                             }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
                         });
                         console.log($scope.caseId + " CASE ID");
                     }
