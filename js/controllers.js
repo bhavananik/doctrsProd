@@ -3858,6 +3858,61 @@ angular.module('your_app_name.controllers', [])
 
 
         })
+        
+         .controller('ExternalVideoArticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
+            $ionicLoading.show({template: 'Loading..'});
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.category_sources = [];
+            $scope.checkboxval = false;
+            $scope.categoryId = $stateParams.categoryId;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-text-article-details',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.target_groups = response.data.target_groups;
+                $scope.languages = response.data.languages;
+                $scope.catId = response.data.user_cat.catId;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.submitNewArticle = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addNewArticle")[0]);
+                callAjax("POST", domain + "contentlibrary/save-article", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        alert('Article added sucessfully.');
+                        $state.go('app.content-library', {reload: true});
+                    } else {
+                        $state.go('app.content-library', {reload: true});
+                    }
+                });
+            };
+            $scope.tabclick = function (taburl) {
+                $ionicScrollDelegate.scrollTop();
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+            };
+            $scope.isChecked = function () {
+                if (jQuery("input[type='checkbox']:checked").length)
+                {
+                    $scope.checkboxval = false;
+                } else {
+                    $scope.checkboxval = true;
+                }
+            }
+
+        })
 
         .controller('DoctorRecordVideoCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicHistory, $ionicLoading, $state) {
             $ionicLoading.show({template: 'Loading..'});

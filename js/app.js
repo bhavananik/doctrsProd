@@ -1063,6 +1063,19 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                     .state('app.external-video-article', {
+                        cache: false,
+                        url: "/external-video-article",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/external-video.html",
+                                controller: 'ExternalVideoArticleCtrl'
+                            }
+                        }
+                    })
+                    
+                    
 
                     .state('app.content-library', {
                         cache: false,
