@@ -1762,7 +1762,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('UpdateDoctorSettingsCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('UpdateDoctorSettingsCtrl', function ($scope,$sce, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
@@ -1776,24 +1776,27 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'doctors/update-service-setting',
                 params: {userId: $scope.userId, service: $scope.service, permission: $scope.permission}
             }).then(function successCallback(response) {
-                //console.log(response.data);
+                $ionicLoading.hide();
                 $scope.price = response.data.getPrice;
                 $scope.days = response.data.days;
                 $scope.servicdayArray = response.data.servicdayArray;
                 $scope.schedule = response.data.getSchedule;
+                console.log($scope.schedule.length);
                 if (response.data.service != 'Instant Video') {
                     angular.forEach($scope.schedule, function (val, k) {
                         $scope.dayfrom[k] = [];
                         $scope.dayto[k] = [];
                         $scope.dayid[k] = [];
+                        console.log(k + " == " + val.dayfrom + " ==  " + k);
                         angular.forEach(val, function (value, key) {
-                            //console.log(k + " == " + value.dayfrom + " ==  " + key);
+                            console.log(k + " == " + value.dayfrom + " ==  " + key);
                             $scope.dayfrom[k][key] = (value.dayfrom).split(',');
                             $scope.dayto[k][key] = (value.dayto).split(',');
                             $scope.dayid[k][key] = (value.dayid).split(',');
                         });
                     });
-                    //console.log($scope.dayfrom);
+                
+                    console.log($scope.dayfrom);
                 }
                 $scope.instant_days = [{text: "Monday", value: '1'},
                     {text: "Tuesday", value: '2'},
@@ -1855,6 +1858,9 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
+            };
             $scope.submitInstantPermission = function () {
                 $ionicLoading.show({template: 'Loading..'});
                 var data = new FormData(jQuery("#instantpermission")[0]);
@@ -1883,9 +1889,11 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+
             $scope.submitVideoService = function () {
                 $ionicLoading.show({template: "Saving"});
                 var data = new FormData(jQuery("#servicevideo")[0]);
+                
                 $.ajax({
                     type: 'POST',
                     url: domain + "doctors/update-doctor-service",
@@ -1894,9 +1902,22 @@ angular.module('your_app_name.controllers', [])
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        $ionicLoading.hide();
-                        alert("Video service updated successfully!");
-                        window.location.reload();
+                        console.log(response);
+                        $scope.serviceID = $("#doctor_services_id").val();
+                       // $ionicLoading.hide();
+                        $http({
+                            method: 'GET',
+                            url: domain + 'doctors/mail-video-service',
+                            params: {userId: window.localStorage.getItem('id'),serviceID:$scope.serviceID }
+                        }).then(function successCallback(response) {
+                            $ionicLoading.hide();
+                            alert("Video service updated successfully!");
+                            window.location.reload();
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+
+                       
                     },
                     error: function (e) {
                         console.log(e.responseText);
@@ -1936,9 +1957,19 @@ angular.module('your_app_name.controllers', [])
                         contentType: false,
                         processData: false,
                         success: function (response) {
+                           // $ionicLoading.hide();
+                            $http({
+                            method: 'GET',
+                            url: domain + 'doctors/mail-clinic-service',
+                            params: {userId: window.localStorage.getItem('id'),serviceID:$scope.serviceID }
+                        }).then(function successCallback(response) {
                             $ionicLoading.hide();
                             alert("Clinic service updated successfully!");
                             window.location.reload();
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                            
                         },
                         error: function (e) {
                             console.log(e.responseText);
@@ -3368,7 +3399,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ViewContentCtrl', function ($scope,$state, $http, $stateParams, $ionicModal, $filter, $sce, $ionicLoading) {
+        .controller('ViewContentCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $filter, $sce, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.contentId = $stateParams.id;
             $http({
@@ -3385,7 +3416,7 @@ angular.module('your_app_name.controllers', [])
 
             $scope.delete_cl = function (contentId) {
                 $scope.contentId = contentId;
-                console.log("sfha"+$scope.contentId);
+                console.log("sfha" + $scope.contentId);
                 $http({
                     method: 'GET',
                     url: domain + 'contentlibrary/delete-content-value',
@@ -3394,8 +3425,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     console.log(response.data);
                     alert('library deleted sucessfully');
-                     $state.go('app.content-library', {reload: true});
-                  //  $scope.cval = response.data;
+                    $state.go('app.content-library', {reload: true});
+                    //  $scope.cval = response.data;
                 }, function errorCallback(e) {
                     console.log(e);
                 });
