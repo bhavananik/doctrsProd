@@ -8468,13 +8468,13 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(responseData) {
                         if (responseData.data.msg !== null) {
                             //keygeneration
-                            var phone1 = responseData.data.user[0].phone;
-                            var phone2 = window.localStorage.getItem('phone');
+                            var partA = responseData.data.user[0].id.toString();
+                            var partB = window.localStorage.getItem('id').toString();
                             var passphrase = "9773001965";
-                            if (phone1 > phone2) {
-                                passphrase = phone1 + phone2;
+                            if (partA > partB) {
+                                passphrase = partA + partB;
                             } else {
-                                passphrase = phone2 + phone1;
+                                passphrase = partB + partA;
                             }
                             privateKey = cryptico.generateRSAKey(passphrase, 1024);
                             responseData.data.msg.message = decrypt(responseData.data.msg.message);
@@ -8521,13 +8521,13 @@ angular.module('your_app_name.controllers', [])
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
                         //keygeneration
-                        var phone1 = responseData.data.user[0].phone;
-                        var phone2 = window.localStorage.getItem('phone');
+                        var partA = responseData.data.user[0].id.toString();
+                        var partB = window.localStorage.getItem('id').toString();
                         var passphrase = "9773001965";
-                        if (phone1 > phone2) {
-                            passphrase = phone1 + phone2;
+                        if (partA > partB) {
+                            passphrase = partA + partB;
                         } else {
-                            passphrase = phone2 + phone1;
+                            passphrase = partB + partA;
                         }
                         privateKey = cryptico.generateRSAKey(passphrase, 1024);
                         // console.log(responseData);
@@ -9008,13 +9008,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.apiKey = response.data.apiKey;
                 $scope.chatActive = response.data.chatActive;
 
-                var phone1 = $scope.user.phone;
-                var phone2 = $scope.otherUser.phone;
+                var partA = $scope.user.id.toString();
+                var partB = $scope.otherUser.id.toString();
                 var passphrase = "9773001965";
-                if (phone1 > phone2) {
-                    passphrase = phone1 + phone2;
+                if (partA > partB) {
+                    passphrase = partA + partB;
                 } else {
-                    passphrase = phone2 + phone1;
+                    passphrase = partB + partA;
                 }
                 privateKey = cryptico.generateRSAKey(passphrase, 1024);
                 publicKey = cryptico.publicKeyString(privateKey);
@@ -9161,13 +9161,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.apiKey = response.data.apiKey;
                 $scope.chatActive = response.data.chatActive;
                 //keygeneration
-                var phone1 = $scope.user.phone;
-                var phone2 = $scope.otherUser.phone;
+                var partA = $scope.user.id.toString();
+                var partB = $scope.otherUser.id.toString();
                 var passphrase = "9773001965";
-                if (phone1 > phone2) {
-                    passphrase = phone1 + phone2;
+                if (partA > partB) {
+                    passphrase = partA + partB;
                 } else {
-                    passphrase = phone2 + phone1;
+                    passphrase = partB + partA;
                 }
                 privateKey = cryptico.generateRSAKey(passphrase, 1024);
                 publicKey = cryptico.publicKeyString(privateKey);
