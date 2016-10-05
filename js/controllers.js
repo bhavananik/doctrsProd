@@ -3892,8 +3892,8 @@ angular.module('your_app_name.controllers', [])
             $scope.submitNewArticle = function () {
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addNewArticle")[0]);
-                callAjax("POST", domain + "contentlibrary/save-article", data, function (response) {
+                var data = new FormData(jQuery("#externalVideo")[0]);
+                callAjax("POST", domain + "contentlibrary/save-external-video", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (response == '1') {

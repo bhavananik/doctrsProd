@@ -7,44 +7,8 @@
             <strong>Create</strong> </button>
     </ion-nav-buttons>
     <ion-content class="">
- 
 
-
-        <div class="posts-list">
-            <div class="list card post-item bluebox">
-                <a ui-sref="#" class="card-content p0">
-                    <div class="row post-heading item item-text-wrap fillbg">
-                        <div class="col col-75">
-                            <h2 class="post-title">Title</h2>
-                            <p class="post-author">
-                                By <span>Dr.</span> <span>Nilesh Bhanushali 28 Sept 2016</span>
-                            </p>
-                        </div>
-                        <div class="col col-25 ">
-                            <div class="indicater txt-center ">
-                                <i class="icon ion-ios-videocam f20"></i>
-                              
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-content item item-text-wrap" post-content>
-                        <div class="framecontainer mb10 ifvideo" style="position: relative;">
-                            <div class="videoWrapper">
-                                <iframe width="560" height="349" src="http://www.youtube.com/embed/sy9Rdt5XwdU" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                        <div class="post-actions ">
-                            <p class="pb10"> <strong>Category </strong>| <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
-                            </p>
-                            <!--<p class="pb10"> <strong>Tags </strong>|  </p>-->
-                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language| capitalize}} {{$last==true? '': ',&nbsp;'}} </span> </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-    <div class="posts-list">
+    <!--<div class="posts-list">
             <div class="list card post-item bluebox">
                 <a ui-sref="#" class="card-content p0 ">
                     <div class="row post-heading item item-text-wrap video">
@@ -65,14 +29,14 @@
                    
                 </a>
             </div>
-        </div>
+        </div>-->
 
 
 
         <div class="posts-list" ng-if="clab != ''">
-            <div class="list card post-item greenbox" ng-repeat="contentLab in clab">
+            <div ng-repeat="contentLab in clab" class="list card post-item" ng-class="contentLab.content_type=='External video'? 'bluebox':(contentLab.content_type=='video'? 'greenbox':'greenbox')"  >
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                    <div class="row post-heading item item-text-wrap " ng-class="{'fillbg': contentLab.content_type == 'video' }">
+                    <div class="row post-heading item item-text-wrap "  ng-class="(contentLab.content_type=='External video'|| contentLab.content_type=='video')?'fillbg':''" >
                         <div class="col col-75">
                             <h2 class="post-title">{{contentLab.content_title| capitalize}}</h2>
                             <p class="post-author">
@@ -80,6 +44,10 @@
                             </p>
                         </div>
                         <div class="col col-25 ">
+                            <div ng-if="contentLab.content_type == 'External video'" class="indicater txt-center video">
+                                <i class="icon ion-ios-videocam f20"></i>
+                                <br/> 
+                            </div>
                             <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
                                 <i class="icon ion-ios-videocam f20"></i>
                                 <br/> {{contentLab.duration | timesec}}

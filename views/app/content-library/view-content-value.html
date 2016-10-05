@@ -36,6 +36,16 @@
                     </video> 
 
                 </div>
+                
+                <div  class="framecontainer mb10 ifvideo"  ng-if="cval.content_type == 'External video'"> 
+
+                     
+                            <div class="videoWrapper">
+                                <iframe width="560" height="349" src="{{trustSrc(cval.content_path)}}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                       
+
+                </div>
                 <p class="post-text">
                     {{cval.content_value}}
                 </p>
