@@ -5870,7 +5870,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addInvForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -6073,7 +6073,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
             });
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addMedicationForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -6279,7 +6279,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addProcedureForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -6486,7 +6486,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addLifeStyleForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -6634,7 +6634,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addReferralForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -9492,7 +9492,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addInvForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -9647,7 +9647,7 @@ angular.module('your_app_name.controllers', [])
             });
 
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val, 'addMedicationForm');
+                addNewOther(name, field, val, 'addMedicationForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -9717,7 +9717,6 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#addMedicationForm #prescribeDt').removeClass('hide');
                 }
             };
-
 
             $rootScope.$on("GetMediDetails", function () {
                 $scope.getMediDetails();
@@ -9877,7 +9876,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addLifeStyleForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -10075,7 +10074,7 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
+                addNewOther(name, field, val, 'addProcedureForm');
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
@@ -10244,8 +10243,8 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.addOther = function (name, field, val) {
-                addOther(name, field, val);
-            };
+                addNewOther(name, field, val, 'addReferralForm');
+            }; 
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
