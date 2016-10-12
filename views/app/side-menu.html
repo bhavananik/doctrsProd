@@ -33,7 +33,7 @@
                     <h2 class="menu-text">Home</h2>
                 </ion-item>
                 <ion-item class="item-icon-left" nav-clear menu-close ng-repeat="menu in menuItem"  ui-sref="{{menu.url}}">
-                    <i class="icon {{menu.intereface_menu.menu=='settings'? 'ion-gear-a':menu.intereface_menu.menu=='patients'? 'ion-person-stalker':menu.intereface_menu.menu=='consultations'? 'ion-medkit':menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit':menu.intereface_menu.menu=='inventory'? 'ion-person-stalker': 'ion-cube'}}"></i>
+                    <i class="icon {{menu.intereface_menu.menu=='settings'? 'ion-gear-a':menu.intereface_menu.menu=='patients'? 'ion-person-stalker':menu.intereface_menu.menu=='consultations'? 'ion-medkit':menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit':menu.intereface_menu.menu=='inventory'? 'ion-person-stalker': menu.intereface_menu.menu=='video broadcast'? 'ion-radio-waves': 'ion-cube'}}"></i>
                     <h2 class="menu-text">{{menu.intereface_menu.menu|capitalize}}</h2>
                 </ion-item> 
 <!--               <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.chatlist">
