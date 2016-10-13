@@ -4309,13 +4309,13 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            $scope.setrawurl = function(val){
+            $scope.seturl = function(val){
                 if(val != null){
                     var n = val.search("src");
                     n = n + 5;
-                    $scope.urlraw = val.substr(n,1000);
-                    n = $scope.urlraw.search('"');
-                    $scope.urlraw = $scope.urlraw.substr(0,n);
+                    $scope.url = val.substr(n,1000);
+                    n = $scope.url.search('"');
+                    $scope.url = $scope.url.substr(0,n);
                 }
             }
             $scope.submitNewArticle = function () {
