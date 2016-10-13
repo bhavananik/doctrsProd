@@ -1338,6 +1338,7 @@ angular.module('your_app_name.controllers', [])
             $scope.create['noOfPublishers'] = 1;
             $scope.create['duration'] = 60;
             $scope.create['registration'] = 'free';
+            $scope.create['audience'] = 2;
             
             $scope.submit = function(){
                 console.log('submission attempted');

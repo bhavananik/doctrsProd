@@ -58,15 +58,27 @@
     <label class="item item-input listreq" ng-if="create.registration =='paid'">
       <input type="number" ng-model="create.rate" required/>
     </label>
-    
-    <div class="item item-divider">No of publishers </div>
-   
+
+
+    <div class="item item-divider">Audience </div>
+    <label class="item item-list listreq">
+     <select ng-model = "create.audience" class="cselect"required>
+        <option value='2'>Peers/Doctors</option>
+        <option value ='3'>Patients</option>
+        <option value='1'>All</option>
+        
+      </select>
+    </label>
+
+    <div class="item item-divider">No of publishers </div>   
     <label class="item item-list listreq">
      <select ng-model = "create.noOfPublishers" class="cselect"required>
         <option value='1'>1</option>
         <option value ='2'>2</option>
       </select>
     </label>
+
+    
     
     <div class="item item-divider"><span>Permitted Viewers </span></div>
     
