@@ -1379,7 +1379,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'video-broadcast-list',
-                params: {}
+                params: {userid: window.localStorage.getItem('id')}
             }).then(function successCallback(response) {
                 $scope.videoBroadcastList = response.data;
             });
