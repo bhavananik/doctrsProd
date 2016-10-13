@@ -4309,9 +4309,22 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.setrawurl = function(val){
+                if(val != null){
+                    var n = val.search("src");
+                    n = n + 5;
+                    $scope.urlraw = val.substr(n,1000);
+                    n = $scope.urlraw.search('"');
+                    $scope.urlraw = $scope.urlraw.substr(0,n);
+                }
+            }
             $scope.submitNewArticle = function () {
+                
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
+                
+               
+               
                 var data = new FormData(jQuery("#externalVideo")[0]);
                 callAjax("POST", domain + "contentlibrary/save-external-video", data, function (response) {
                     console.log(response);
