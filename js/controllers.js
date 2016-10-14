@@ -4003,6 +4003,24 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+            
+            $scope.submitNewVideoArticleAws = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addNewVideoArticle")[0]);
+                callAjax("POST", domain + "contentlibrary/save-video-article-to-aws", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
+                        $scope.archiveId = window.localStorage.removeItem('archiveId');
+                        alert('Video Article added sucessfully.');
+                        $state.go('app.content-library', {reload: true});
+                    } else {
+                        $state.go('app.content-library', {reload: true});
+                    }
+                });
+            };
 
             $scope.tabclick = function (taburl) {
                 $ionicScrollDelegate.resize();
@@ -4139,7 +4157,7 @@ angular.module('your_app_name.controllers', [])
                             params: {archiveStop: 1, archiveId: $scope.aid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
-                            $scope.playVideo($scope.aid);
+                            $scope.playVideo($scope.aid); // recursive call function
 //                            $http({
 //                                method: 'GET',
 //                                url: domain + 'contentlibrary/recording-response',
