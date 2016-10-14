@@ -4310,12 +4310,14 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
             $scope.seturl = function(val){
-                if(val != null){
+                if(!(val== null)){
+                    
                     var n = val.search("src");
                     n = n + 5;
                     $scope.url = val.substr(n,1000);
                     n = $scope.url.search('"');
                     $scope.url = $scope.url.substr(0,n);
+                    $scope.urlraw = val;
                 }
             }
             $scope.submitNewArticle = function () {
