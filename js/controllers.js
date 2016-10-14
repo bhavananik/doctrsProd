@@ -1381,6 +1381,20 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
+            $scope.allowArticle = 0;
+            $scope.allowInternal = 0;
+            $scope.allowExternal = 0;
+            $scope.allowBroadcast = 0;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/content-permission',
+                params: {userid: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                $scope.allowArticle = response.data.article;
+                $scope.allowInternal = response.data.internal;
+                $scope.allowExternal = response.data.external;
+                $scope.allowBroadcast = response.data.broadcast;
+            });
             $http({
                 method: 'GET',
                 url: domain + 'video-broadcast-list',
@@ -3881,9 +3895,20 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
+            $scope.allowArticle = 0;
+            $scope.allowInternal = 0;
+            $scope.allowExternal = 0;
+            $scope.allowBroadcast = 0;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/content-permission',
+                params: {userid: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                $scope.allowArticle = response.data.article;
+                $scope.allowInternal = response.data.internal;
+                $scope.allowExternal = response.data.external;
+                $scope.allowBroadcast = response.data.broadcast;
+            });
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-doctors-article',
