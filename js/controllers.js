@@ -1376,6 +1376,11 @@ angular.module('your_app_name.controllers', [])
         })
         
         .controller('VideoBroadcastCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading,$state,$filter) {
+            $ionicModal.fromTemplateUrl('create-library', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
             $http({
                 method: 'GET',
                 url: domain + 'video-broadcast-list',
