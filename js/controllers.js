@@ -4162,7 +4162,7 @@ angular.module('your_app_name.controllers', [])
                             params: {archiveStop: 1, archiveId: $scope.aid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
-                            $scope.playVideo($scope.aid); // recursive call function
+                           // $scope.playVideo($scope.aid); // recursive call function
 //                            $http({
 //                                method: 'GET',
 //                                url: domain + 'contentlibrary/recording-response',
