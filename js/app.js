@@ -1,5 +1,5 @@
 // Ionic Starter App
-var domain = "https://hope.arth.tech/";
+var domain = "https://caregivers.arth.tech/";
 //var domain = "http://stage.doctrs.in/";
 angular.module('underscore', [])
         .factory('_', function () {
@@ -931,6 +931,16 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/doctor-join.html",
                                 controller: 'DoctorJoinCtrl'
+                            }
+                        }
+                    })
+                    .state('app.doctor-join-only', {
+                        cache: false,
+                        url: "/doctor-join-only/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-join-only.html",
+                                controller: 'DoctorJoinOnlyCtrl'
                             }
                         }
                     })

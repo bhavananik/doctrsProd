@@ -664,7 +664,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('length = ' + element.files.length);
                 var image_holder = $("#image-holder");
                 image_holder.empty();
-                if (element.files.length > 0 && $scope.category==8) {
+                if (element.files.length > 0 && $scope.category == 8) {
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
@@ -3868,8 +3868,8 @@ angular.module('your_app_name.controllers', [])
 
 
         })
-        
-         .controller('ExternalVideoArticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
+
+        .controller('ExternalVideoArticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];
@@ -7598,6 +7598,7 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.drId}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.joinPage = response.data.join;
                 $scope.todays_data = response.data.todays_data;
                 $scope.todays_app = response.data.todays_appointments;
                 $scope.todays_usersData = response.data.todays_usersData;
@@ -7730,7 +7731,7 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.curTime >= start || $scope.curTime <= end) {
                     console.log('redirect');
                     //$state.go('app.patient-join', {}, {reload: true});
-                    $state.go('app.doctor-join', {'id': appId, 'mode': mode});
+                    $state.go($scope.joinPage.url, {'id': appId});
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
@@ -10244,7 +10245,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.addOther = function (name, field, val) {
                 addNewOther(name, field, val, 'addReferralForm');
-            }; 
+            };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
@@ -12074,6 +12075,293 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             /* end of rightsidetab */
+        })
+
+        .controller('DoctorJoinOnlyCtrl', function ($ionicLoading, $scope, $rootScope, $http, $compile, $ionicModal, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter, $ionicScrollDelegate) {
+            $ionicLoading.show({template: 'Loading...'});
+//            if (!get('loadedOnce')) {
+//                store({'loadedOnce': 'true'});
+//                $window.location.reload(true);
+//                // don't reload page, but clear localStorage value so it'll get reloaded next time
+//
+//            } else {
+//                // set the flag and reload the page
+//                window.localStorage.removeItem('loadedOnce');
+//            }
+
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            //$ionicHistory.clearCache();
+            $scope.appId = $stateParams.id;
+            var stoppedTimer;
+            $scope.Timercounter;
+            var statstimer;
+            $scope.$on('$destroy', function () {
+                try {
+                    publisher.off();
+                    //alert('EXIT : publisher off try');
+                    publisher.destroy();
+                    //alert('publisher destroy');
+                    subscriber.destroy();
+                    //alert('subscriber destroy');
+                    //session.unsubscribe();
+                    session.off();
+                    //alert('EXIT : session off');
+                    session.disconnect();
+                    // alert('session disconnected try');
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
+                } catch (err) {
+                    //alert('err while exitvideo ' + err);
+                    session.off();
+                    //alert('EXIT : session off catch');
+                    session.disconnect();
+                    //alert('session disconnected');
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
+                }
+            });
+            $scope.pushEvent = 'video_join';
+            $http({
+                method: 'GET',
+                url: domain + 'appointment/join-patient',
+                params: {id: $scope.appId, userId: $scope.userId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.appDetails = response.data.app;
+                $scope.patientId = response.data.user.id;
+                console.log("patient " + $scope.patientId);
+                store({'patientId': $scope.patientId, 'doctorId': $scope.doctorId});
+                //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
+                var apiKey = response.data.key;  //'45121182';
+                var sessionId = response.data.app[0].appointments.opentok_session_id;
+                var token = response.data.oToken;
+                if (OT.checkSystemRequirements() == 1) {
+                    session = OT.initSession(apiKey, sessionId);
+                    $ionicLoading.hide();
+                } else {
+                    $ionicLoading.hide();
+                    alert("Your device is not compatible");
+                }
+                session.on({
+                    streamDestroyed: function (event) {
+                        event.preventDefault();
+                        window.clearInterval(statstimer);
+                        statstimer = '';
+                        var subscribers = session.getSubscribersForStream(event.stream);
+                        console.log('stream distroy: ' + subscribers);
+                        //alert('stream distroy length: ' + subscribers.length);
+                        console.log('on stream Destroy reason: ' + event.reason);
+                        //alert('on stream Destroy reason: ' + event.reason);
+                        jQuery("#subscribersDiv").html("Patient Left the Consultation");
+                        session.unsubscribe();
+                    },
+                    streamCreated: function (event) {
+                        $ionicLoading.hide();
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
+                                function (error) {
+                                    if (error) {
+                                        console.log("subscriber Error " + error.code + '--' + error.message);
+                                    } else {
+                                        console.log('Subscriber added.');
+                                        var subscribers2 = session.getSubscribersForStream(event.stream);
+                                        console.log('Subscriber length.' + subscribers2.length);
+                                        //alert('APK Subscriber length.' + subscribers2.length)
+                                        console.log('stream created: ' + subscribers2);
+                                        var prevStats;
+//                                        statstimer = window.setInterval(function () {
+//                                            $ionicLoading.hide();
+////                                            subscriber.getStats(function (error, stats) {
+////                                                if (error) {
+////                                                    console.error('Error getting subscriber stats. ', error.message);
+////                                                    return;
+////                                                }
+////                                                if (prevStats) {
+////                                                    var videoPacketLossRatio = stats.video.packetsLost /
+////                                                            (stats.video.packetsLost + stats.video.packetsReceived);
+////                                                    console.log('video packet loss ratio: ', videoPacketLossRatio);
+////                                                    var videoBitRate = 8 * (stats.video.bytesReceived - prevStats.video.bytesReceived);
+////                                                    console.log('video bit rate: ', videoBitRate, 'bps');
+////                                                    var audioPacketLossRatio = stats.audio.packetsLost /
+////                                                            (stats.audio.packetsLost + stats.audio.packetsReceived);
+////                                                    //console.log('audio packet loss ratio: ', audioPacketLossRatio);
+////                                                    var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
+////                                                    //console.log('audio bit rate: ', audioBitRate, 'bps');
+////                                                    $ionicLoading.hide();
+//////                                                    $http({
+//////                                                        method: 'GET',
+//////                                                        url: domain + 'log/stats-log',
+//////                                                        params: {id: $scope.appId,
+//////                                                            userId: $scope.userId,
+//////                                                            videoPacketLossRatio: videoPacketLossRatio,
+//////                                                            videoBitRate: videoBitRate,
+//////                                                            audioPacketLossRatio: audioPacketLossRatio,
+//////                                                            audioBitRate: audioBitRate
+//////                                                        }
+//////                                                    }).then(function successCallback(response) {
+//////                                                        //$ionicLoading.hide();
+//////                                                    }, function errorCallback(e) {
+//////
+//////                                                    });
+////                                                }
+////                                                prevStats = stats;
+////                                            });
+//                                        }, 5000);
+                                    }
+                                });
+                    },
+                    sessionDisconnected: function (event) {
+                        var subscribers3 = session.getSubscribersForStream(event.stream);
+                        console.log('sessionDisconnected : ' + subscribers3);
+                        if (event.reason === 'networkDisconnected') {
+                            alert('You lost your internet connection.'
+                                    + 'Please check your connection and try connecting again.');
+                            var subscribers4 = session.getSubscribersForStream(event.stream);
+                            console.log('sessionDisconnected----1 : ' + subscribers4.length);
+                        }
+                    }
+                });
+                session.connect(token, function (error) {
+                    if (error) {
+                        $ionicLoading.hide();
+                        alert("Error connecting session doctors: ", error.code, error.message);
+                    } else {
+                        $ionicLoading.hide();
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        session.publish(publisher, function (error) {
+                            if (error) {
+                                console.log("publisher Error code/msg: ", error.code, error.message);
+                            } else {
+                                //alert($scope.appDetails[0].appointments.scheduled_start_time);
+                                if ($scope.curDate >= $scope.appDetails[0].appointments.scheduled_start_time && $scope.curDate <= $scope.appDetails[0].appointments.scheduled_end_time) {
+                                    console.log('inside appt, between tym');
+                                    $scope.Timercounter = getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate);
+                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate));
+                                    $scope.onTimeout = function () {
+                                        stoppedTimer = $timeout(function () {
+                                            $scope.Timercounter++;
+                                            $scope.seconds = $scope.Timercounter % 60;
+                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
+                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
+                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
+                                            $scope.onTimeout();
+                                        }, 1000)
+                                    }
+
+                                    $timeout(function () {
+                                        $scope.onTimeout();
+                                    }, 0);
+                                } else {
+                                    $scope.Timercounter = '00:00';
+                                }
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'notification/push-notification',
+                                    params: {id: $scope.appId, userId: $scope.userId, pushEvent: $scope.pushEvent}
+                                }).then(function successCallback(response) {
+
+
+                                }, function errorCallback(e) {
+                                });
+                                publisher.on('streamCreated', function (event) {
+                                    var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    console.log('on publish lenghth.' + subscribers5.length);
+                                });
+                                publisher.on('streamDestroyed', function (event) {
+                                    var subscribers6 = session.getSubscribersForStream(event.stream);
+                                    console.log('on Destroy: ' + subscribers6);
+                                    console.log('on Destroy reason: ' + event.reason);
+                                    subscriber.destroy();
+                                });
+                                var mic = 1;
+                                var mute = 1;
+                                var mutevideo = 1;
+                                jQuery(".muteVideo").click(function () {
+                                    console.log("Vcvxcvxc");
+                                    if (mutevideo == 1) {
+                                        publisher.publishVideo(false);
+                                        mutevideo = 0;
+                                    } else {
+                                        publisher.publishVideo(true);
+                                        mutevideo = 1;
+                                    }
+                                });
+                                jQuery(".muteMic").click(function () {
+                                    if (mic == 1) {
+                                        publisher.publishAudio(false);
+                                        mic = 0;
+                                    } else {
+                                        publisher.publishAudio(true);
+                                        mic = 1;
+                                    }
+                                });
+                                jQuery(".muteSub").click(function () {
+                                    if (mute == 1) {
+                                        subscriber.subscribeToAudio(false);
+                                        mute = 0;
+                                    } else {
+                                        subscriber.subscribeToAudio(true);
+                                        mute = 1;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.exitVideo = function () {
+                try {
+                    $timeout.cancel(stoppedTimer);
+                    publisher.off();
+                    // alert('EXIT : publisher off try');
+                    publisher.destroy();
+                    //alert('publisher destroy');
+                    subscriber.destroy();
+                    //alert('subscriber destroy');
+                    //session.unsubscribe();
+                    session.off();
+                    //alert('EXIT : session off');
+                    session.disconnect();
+                    // alert('session disconnected try');
+                    window.clearInterval(statstimer);
+                    statstimer = '';
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    });
+                    window.localStorage.removeItem('recId');
+                } catch (err) {
+                    $timeout.cancel(stoppedTimer);
+                    // alert('err while exitvideo ' + err);
+                    session.off();
+                    // alert('EXIT : session off catch');
+                    session.disconnect();
+                    // alert('session disconnected');
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
+                    window.localStorage.removeItem('recId');
+                }
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/doctor-exit-video',
+                    params: {id: $scope.appId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    $state.go('app.doctor-consultations', {}, {reload: true});
+                }, function errorCallback(e) {
+
+                    $state.go('app.consultations-current', {}, {reload: true});
+                });
+            };
         })
 
         .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
