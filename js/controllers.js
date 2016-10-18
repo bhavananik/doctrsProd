@@ -4181,6 +4181,11 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.videoscreen').show();
                         jQuery('.next').show();
                         jQuery('.rerecording').show();
+                        $scope.from = get('from');                        
+                        var data = new FormData(jQuery("#addNewVideoArticle")[0]);
+                        callAjax("POST", domain + "contentlibrary/add-video-article", data, function (response) {
+                            console.log('entry done');
+                        });
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/recording-stop',
