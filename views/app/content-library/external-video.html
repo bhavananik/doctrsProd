@@ -21,10 +21,13 @@
                     <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
                 </label>
 
-                <div class="item item-divider mt15">External URL</div>
+                <div class="item item-divider mt15">Embedded URL (paste including <&nbsp;iframe&nbsp;>)</div>
                 <label class="item item-input">
-                    <input type="text" name="url" ng-model="url" placeholder="External URL"  required="" />
+                    <input type="text" name="urlraw" ng-model="urlraw" placeholder="<iframe height=10px; width=10px; src='www.xyz.com/HUWxin?inmc'></iframe>" ng-change="seturl(urlraw)" required="" value="{{urlraw}}"/>
                 </label>
+                
+                <input type="hidden" name="url" ng-model="url" value="{{url}}"/>
+         
 
                 <div class="item item-divider mt15">Share With </div>
 
