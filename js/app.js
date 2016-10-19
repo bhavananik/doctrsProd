@@ -934,6 +934,16 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.doctor-join-only', {
+                        cache: false,
+                        url: "/doctor-join-only/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-join-only.html",
+                                controller: 'DoctorJoinOnlyCtrl'
+                            }
+                        }
+                    })
                     .state('app.current-chat', {
                         cache: false,
                         url: "/current-chat/{id:int}",
