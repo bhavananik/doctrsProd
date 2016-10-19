@@ -8047,13 +8047,33 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar, $ionicLoading) {
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $ionicModal, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar, $ionicLoading) {
             $ionicLoading.show({template: 'Loading..'});
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.interface = get('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
+            $scope.showUpdateStatus = function(val){
+                console.log('status update initiated');
+                
+                $ionicModal.fromTemplateUrl('update-status', {
+                    scope: $scope
+                }).then(function (modal) {
+                    console.log(val.app.id);
+                    $scope.statusChanged = function(value){
+                        $http({
+                                    method: 'GET',
+                                    url: domain + 'appointment/update-clinic-appointment-status',
+                                    params: {apptId: val.app.id, status: value}
+                                }).then(function successCallback(response) {
+                                    modal.hide();
+                                    $state.go('app.doctor-consultations', {}, {reload: true});
+                                });
+                    }
+                    $scope.modal = modal;
+                    modal.show();
+                });
+            }
             $scope.doRefresh = function () {
                 console.log("jskhfksjdf");
                 $http({
@@ -8209,7 +8229,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     if (mode == 1) {
-                        alert("Video cancel");
+                        // alert("Video cancel");
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/dr-cancel-app',
