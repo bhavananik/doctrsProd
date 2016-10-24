@@ -4338,7 +4338,24 @@ angular.module('your_app_name.controllers', [])
                             console.log(e);
                         });
                     };
-
+                    $scope.checkaws = function(val){
+                        $scope.awsflag = 0;
+                        $http({
+                                    method: 'GET',
+                                    url: domain + 'contentlibrary/check-aws',
+                                    params: {archiveId: val}
+                                }).then(function sucessCallback(response) {
+                                    $scope.awsflag = response.data.awsflag;
+                                    $scope.playurl = response.data.playurl;
+                                    if($scope.awsflag == 1){
+                                        $scope.playVideoPreview(val);
+                                    }else{
+                                        alert(val + ' your message here');
+                                    }
+                                });
+                        //get request to check if scope.awsflag is set ""
+                        
+                    }
                     $scope.playVideoPreview = function () {
                         $scope.modal.show();
                     };
