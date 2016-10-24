@@ -25,7 +25,8 @@ angular.module('your_app_name', [
     'slugifier',
     'ionic.contrib.ui.tinderCards',
     'jett.ionic.filter.bar',
-    'youtube-embed'
+    'youtube-embed',
+    'PasswordConfirm'
 ])
         .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
            document.addEventListener("offline", onOffline, false);
