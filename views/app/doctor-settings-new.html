@@ -6,7 +6,10 @@
         <span>Settings</span>
     </ion-nav-title>
     <ion-content>
-        <div ng-if='docSettings.length == 0'> No seetings</div>
+        <div>
+              <div class="item item-divider"><a ui-sref="app.change-password" style="text-decoration: none;" >Change Password </a></div>
+        </div>
+        <div ng-if='docSettings.length == 0'> No settings</div>
         <div ng-if='docSettings.length > 0'>
 
             <ul class="list" ng-repeat="(key, value) in docSettings">

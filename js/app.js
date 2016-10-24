@@ -322,6 +322,18 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.change-password', {
+                        url: "/change-password",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/change-password.html";
+                                },
+                                controller: 'ChangePasswordCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.update-doctor-setting', {
                         cache: false,
